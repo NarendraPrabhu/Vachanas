@@ -1,2 +1,1 @@
-# Vachanas
-# Details about the project
+# Vachanas - Details about the project
