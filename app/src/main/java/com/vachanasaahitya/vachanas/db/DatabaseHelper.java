@@ -1,6 +1,9 @@
 package com.vachanasaahitya.vachanas.db;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.text.TextUtils;
 
 import org.apache.commons.io.IOUtils;
 
@@ -36,6 +39,8 @@ public class DatabaseHelper {
                 InputStream is = context.getAssets().open(DB_NAME);
                 FileOutputStream fos = context.openFileOutput(DB_NAME, Context.MODE_APPEND);
                 value = (IOUtils.copy(is, fos) > 0);
+                IOUtils.closeQuietly(is);
+                IOUtils.closeQuietly(fos);
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
@@ -43,5 +48,52 @@ public class DatabaseHelper {
         return value;
     }
 
+    private static SQLiteDatabase getDB(Context context){
+        File file = new File(context.getFilesDir(), DB_NAME);
+        return SQLiteDatabase.openDatabase(file.getAbsolutePath(), null, 0);
+    }
 
+    public static Cursor searchVachanakaara(Context context, String value){
+        String selection = null;
+        String[] selectionArgs = null;
+        if(!TextUtils.isEmpty(value)){
+            selection = COLUMN_NAME+"=?";
+            selectionArgs = new String[]{value};
+        }
+        SQLiteDatabase db = getDB(context);
+        if(db == null){
+            return null;
+        }
+        return db.query(TABLE_VACHANAKAARAS, new String[]{COLUMN_NAME, COLUMN_DETAILS}, selection, selectionArgs, null, null, null);
+    }
+
+    public static Cursor searchVachanas(Context context, String value){
+        String selection = null;
+        String[] selectionArgs = null;
+        if(!TextUtils.isEmpty(value)){
+            selection = COLUMN_VACHANA+" LIKE '%?%'";
+            selectionArgs = new String[]{value};
+        }
+        SQLiteDatabase db = getDB(context);
+        if(db == null){
+            return null;
+        }
+        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_VACHANA}, selection, selectionArgs, null, null, null);
+    }
+
+
+    public static Cursor getVachanas(Context context, String vachanakaara){
+        String selection = null;
+        String[] selectionArgs = null;
+        if(!TextUtils.isEmpty(vachanakaara)){
+            selection = COLUMN_NAME+"=?";
+            selectionArgs = new String[]{vachanakaara};
+        }
+        SQLiteDatabase db = getDB(context);
+        if(db == null){
+            return null;
+        }
+        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_VACHANA}, selection, selectionArgs, null, null, null);
+
+    }
 }
