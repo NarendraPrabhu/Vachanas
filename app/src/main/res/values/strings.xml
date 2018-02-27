@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">Vachanas</string>
+    <string name="app_name">ವಚನಗಳು</string>
+    <string name="activity_name_vachanakaras">ವಚನಕಾರರು</string>
+    <string name="activity_name_vachanas">@string/app_name</string>
+    <string name="search_title">Search</string>
+    <string name="search_hint_vachanakaara">ಬಸವಣ್ಣ</string>
+    <string name="search_hint_vachana">ಕಳಬೇಡ ಕೊಲಬೇಡ</string>
 </resources>
