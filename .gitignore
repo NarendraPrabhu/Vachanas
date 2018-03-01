@@ -46,4 +46,4 @@ obj/
 .externalNativeBuild
 
 #db files
-*.db
+vachanas.db
