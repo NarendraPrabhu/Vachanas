@@ -72,7 +72,7 @@ public class DatabaseHelper {
         }
         Cursor cursor = null;
         try{
-            cursor = db.query(TABLE_VACHANAKAARAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DETAILS}, selection, null, null, null, null);
+            cursor = db.query(TABLE_VACHANAKAARAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DETAILS}, selection, null, null, null, COLUMN_NAME);
         }catch (SQLiteException se){
             se.printStackTrace();
         }catch (IllegalArgumentException iae){
@@ -90,7 +90,7 @@ public class DatabaseHelper {
         if(db == null){
             return null;
         }
-        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, null);
+        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, COLUMN_NAME);
     }
 
     public static Cursor searchVachanas(Context context, String vachanakaara, String value){
@@ -111,6 +111,6 @@ public class DatabaseHelper {
         if(db == null){
             return null;
         }
-        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, null);
+        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, COLUMN_NAME);
     }
 }
