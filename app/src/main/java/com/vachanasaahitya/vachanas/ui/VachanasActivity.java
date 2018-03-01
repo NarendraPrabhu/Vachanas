@@ -1,16 +1,15 @@
 package com.vachanasaahitya.vachanas.ui;
 
 import android.app.ListActivity;
-import android.app.SearchManager;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
@@ -21,6 +20,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.vachanasaahitya.vachanas.R;
+import com.vachanasaahitya.vachanas.data.Vachana;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 
@@ -33,8 +33,9 @@ public class VachanasActivity extends ListActivity {
     public static final String EXTRA_PARAM_VACHANAKAARA = "vachanakaara";
 
     private VachanasAdapter mAdapter = new VachanasAdapter();
-
     private Vachanakaara mVachanakaara = null;
+
+    private SearchView mSearchView = null;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,23 +51,73 @@ public class VachanasActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        String vachana = (String)v.getTag();
-        if(!TextUtils.isEmpty(vachana)){
+        Vachana vachana = (Vachana) v.getTag();
+        if(vachana != null){
             VachanaFragment vf = new VachanaFragment();
             Bundle bundle = new Bundle();
-            bundle.putString(VachanaFragment.EXTRA_VACHANA, vachana);
+            bundle.putString(VachanaFragment.EXTRA_VACHANA, vachana.getVachana());
+            bundle.putString(VachanaFragment.EXTRA_SHEERSHIKE, vachana.getName());
             vf.setArguments(bundle);
             vf.show(getFragmentManager(), "Vachana_details");
         }
     }
 
     @Override
+    public void onBackPressed() {
+        if(closeSearchView()){
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if((keyCode == KeyEvent.KEYCODE_BACK) && closeSearchView()){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean closeSearchView(){
+        if(mSearchView != null && mSearchView.isIconified()){
+            mSearchView.setIconified(false);
+            return  true;
+        }
+        return false;
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setOnQueryTextListener(mAdapter);
+        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        mSearchView.setOnQueryTextListener(mAdapter);
+        mSearchView.setOnCloseListener(onCloseListener);
         return true;
+    }
+
+    private SearchView.OnCloseListener onCloseListener = new SearchView.OnCloseListener() {
+        @Override
+        public boolean onClose() {
+            Cursor cursor = DatabaseHelper.searchVachanas(VachanasActivity.this, mVachanakaara.getName(), "");
+            mAdapter.swapCursor(cursor);
+            return false;
+        }
+    };
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.info){
+            VachanaFragment vf = new VachanaFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(VachanaFragment.EXTRA_SHEERSHIKE, getString(R.string.info_title));
+            String info = String.format(getString(R.string.search_info_vachanagaLu), mVachanakaara.getName());
+            bundle.putString(VachanaFragment.EXTRA_VACHANA, info);
+            vf.setArguments(bundle);
+            vf.show(getFragmentManager(), "search_hint");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private class VachanasAdapter extends CursorAdapter implements SearchView.OnQueryTextListener, Filterable {
@@ -89,9 +140,10 @@ public class VachanasActivity extends ListActivity {
         public void bindView(View view, Context context, Cursor cursor) {
             String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
             String vachana = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_VACHANA));
+            Vachana v = new Vachana(name, vachana);
             ((TextView)view.findViewById(R.id.vachana_name)).setText(name);
             ((TextView)view.findViewById(R.id.vachana_vachana)).setText(vachana);
-            view.setTag(vachana);
+            view.setTag(v);
         }
 
         @Override
@@ -112,7 +164,7 @@ public class VachanasActivity extends ListActivity {
                 @SuppressWarnings("unchecked")
                 @Override
                 protected void publishResults(CharSequence constraint, FilterResults results) {
-                    Cursor cursor = getCursor(constraint.toString());
+                    Cursor cursor = DatabaseHelper.searchVachanas(VachanasActivity.this, constraint.toString());
                     swapCursor(cursor);
                 }
 

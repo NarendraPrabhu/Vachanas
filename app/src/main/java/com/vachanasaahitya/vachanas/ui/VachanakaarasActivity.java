@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
@@ -29,6 +31,7 @@ public class VachanakaarasActivity extends ListActivity {
 
 
     private VachanakaarasAdapter mAdapter = new VachanakaarasAdapter();
+    private SearchView mSearchView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,10 +45,63 @@ public class VachanakaarasActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setOnQueryTextListener(mAdapter);
-        searchView.setIconified(false);
+        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        mSearchView.setOnQueryTextListener(mAdapter);
+        mSearchView.setIconified(false);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.info){
+            VachanaFragment vf = new VachanaFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(VachanaFragment.EXTRA_VACHANA, getString(R.string.search_info_vachanakaararu));
+            bundle.putString(VachanaFragment.EXTRA_SHEERSHIKE, getString(R.string.info_title));
+            vf.setArguments(bundle);
+            vf.show(getFragmentManager(), "search_hint");
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private  View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Vachanakaara v = (Vachanakaara)view.getTag();
+            if(v == null){
+                return;
+            }
+            VachanakaaraFragment vf = new VachanakaaraFragment();
+            Bundle b = new Bundle();
+            b.putParcelable(VachanakaaraFragment.EXTRA_VACHANAKAARA, v);
+            vf.setArguments(b);
+            vf.show(getFragmentManager(), v.getName());
+        }
+    };
+
+    @Override
+    public void onBackPressed() {
+        if(closeSearchView()){
+            return;
+        }
+        super.onBackPressed();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if((keyCode == KeyEvent.KEYCODE_BACK) && closeSearchView()){
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private boolean closeSearchView(){
+        if(mSearchView != null && mSearchView.isIconified()){
+            mSearchView.setIconified(false);
+            return  true;
+        }
+        return false;
     }
 
     @Override
@@ -71,6 +127,9 @@ public class VachanakaarasActivity extends ListActivity {
         @Override
         public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
             View v = getLayoutInflater().inflate(R.layout.item_vachanakaara, null);
+            v.findViewById(R.id.vachanakaara_info).setOnClickListener(onClickListener);
+            v.findViewById(R.id.vachanakaara_info).setFocusable(false);
+            v.findViewById(R.id.vachanakaara_info).setFocusableInTouchMode(false);
             return v;
         }
 
@@ -81,6 +140,7 @@ public class VachanakaarasActivity extends ListActivity {
             Vachanakaara v = new Vachanakaara(name, details);
             ((TextView)view.findViewById(R.id.vachanakaara_name)).setText(v.getName());
             ((TextView)view.findViewById(R.id.vachanakaara_details)).setText(details);
+            view.findViewById(R.id.vachanakaara_info).setTag(v);
             view.setTag(v);
         }
 

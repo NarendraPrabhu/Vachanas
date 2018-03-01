@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:padding="30dp"
+            android:textStyle="normal"
+            android:lineSpacingExtra="2dp"
+            android:text="@string/entry_launch_info"
+            android:paddingBottom="80dp"/>
+    </ScrollView>
+    <Button
+        android:layout_width="wrap_content"
+        android:id="@+id/launch_enter"
+        android:layout_margin="5dp"
+        android:minHeight="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:minWidth="70dp"
+        android:text="@string/enter"
+        android:textStyle="bold"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"/>
+
+</RelativeLayout>

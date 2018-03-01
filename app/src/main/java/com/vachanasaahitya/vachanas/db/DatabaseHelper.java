@@ -64,7 +64,7 @@ public class DatabaseHelper {
     public static Cursor searchVachanakaara(Context context, String value){
         String selection = null;
         if(!TextUtils.isEmpty(value)){
-            selection = COLUMN_NAME+" LIKE '%"+value+"%'";
+            selection = COLUMN_NAME+" LIKE '%"+value+"%' OR "+COLUMN_DETAILS+" LIKE '%"+value+"%'";
         }
         SQLiteDatabase db = getDB(context);
         if(db == null){
@@ -84,13 +84,13 @@ public class DatabaseHelper {
     public static Cursor searchVachanas(Context context, String value){
         String selection = null;
         if(!TextUtils.isEmpty(value)){
-            selection = COLUMN_VACHANA+" LIKE '%"+value+"%'";
+            selection = COLUMN_VACHANA+" LIKE '%"+value+"%' OR "+COLUMN_NAME+" LIKE '%"+value+"%'";
         }
         SQLiteDatabase db = getDB(context);
         if(db == null){
             return null;
         }
-        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_VACHANA}, selection, null, null, null, null);
+        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, null);
     }
 
     public static Cursor searchVachanas(Context context, String vachanakaara, String value){
@@ -98,7 +98,7 @@ public class DatabaseHelper {
         String selection = "";
 
         if(!TextUtils.isEmpty(vachanakaara)){
-            selection = COLUMN_NAME+" LIKE '%"+vachanakaara+"%'";
+            selection = COLUMN_NAME+" LIKE '"+vachanakaara+"'";
         }
 
         if(!TextUtils.isEmpty(value)){
@@ -112,20 +112,5 @@ public class DatabaseHelper {
             return null;
         }
         return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, null);
-    }
-
-    public static Cursor getVachanas(Context context, String vachanakaara){
-        String selection = null;
-        String[] selectionArgs = null;
-        if(!TextUtils.isEmpty(vachanakaara)){
-            selection = COLUMN_NAME+"=?";
-            selectionArgs = new String[]{vachanakaara};
-        }
-        SQLiteDatabase db = getDB(context);
-        if(db == null){
-            return null;
-        }
-        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_VACHANA}, selection, selectionArgs, null, null, null);
-
     }
 }
