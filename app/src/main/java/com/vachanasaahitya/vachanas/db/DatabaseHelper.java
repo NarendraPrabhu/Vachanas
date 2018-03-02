@@ -1,6 +1,9 @@
 package com.vachanasaahitya.vachanas.db;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -33,7 +36,14 @@ public class DatabaseHelper {
 
     public static boolean copyFile(Context context){
         boolean value = false;
+
         File file = new File(context.getFilesDir().getAbsolutePath(), DB_NAME);
+        if(isVersionDifferent(context)){
+            if(file.exists()){
+                file.delete();
+            }
+        }
+
         if(file.exists() && file.length() > 0){
             value = true;
         }else {
@@ -46,6 +56,20 @@ public class DatabaseHelper {
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
+        }
+        return value;
+    }
+
+    private static boolean isVersionDifferent(Context context){
+        boolean value = false;
+        SharedPreferences prefs = context.getSharedPreferences("vachanas", Context.MODE_PRIVATE);
+        int version = prefs.getInt("version", 0);
+        try {
+            PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            value = (version != info.versionCode);
+            prefs.edit().putInt("version", info.versionCode).commit();
+        }catch (PackageManager.NameNotFoundException nnfe){
+            nnfe.printStackTrace();
         }
         return value;
     }
