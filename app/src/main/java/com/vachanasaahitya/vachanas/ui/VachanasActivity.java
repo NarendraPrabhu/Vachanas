@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,11 +34,10 @@ public class VachanasActivity extends ListActivity {
     private VachanasAdapter mAdapter = new VachanasAdapter();
     private Vachanakaara mVachanakaara = null;
 
-    private SearchView mSearchView = null;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.list);
         mVachanakaara = getIntent().getParcelableExtra(EXTRA_PARAM_VACHANAKAARA);
         if(mVachanakaara == null){
             finish();
@@ -63,47 +61,14 @@ public class VachanasActivity extends ListActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if(closeSearchView()){
-            return;
-        }
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if((keyCode == KeyEvent.KEYCODE_BACK) && closeSearchView()){
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private boolean closeSearchView(){
-        if(mSearchView != null && mSearchView.isIconified()){
-            mSearchView.setIconified(false);
-            return  true;
-        }
-        return false;
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        mSearchView.setOnQueryTextListener(mAdapter);
-        mSearchView.setOnCloseListener(onCloseListener);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setOnQueryTextListener(mAdapter);
+        searchView.setQueryHint(getString(R.string.search_hint_vachana));
         return true;
     }
-
-    private SearchView.OnCloseListener onCloseListener = new SearchView.OnCloseListener() {
-        @Override
-        public boolean onClose() {
-            Cursor cursor = DatabaseHelper.searchVachanas(VachanasActivity.this, mVachanakaara.getName(), "");
-            mAdapter.swapCursor(cursor);
-            return false;
-        }
-    };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -153,7 +118,12 @@ public class VachanasActivity extends ListActivity {
 
         @Override
         public boolean onQueryTextChange(String s) {
-            getFilter().filter(s);
+            if(TextUtils.isEmpty(s)){
+                Cursor cursor = DatabaseHelper.searchVachanas(VachanasActivity.this, mVachanakaara.getName(), "");
+                swapCursor(cursor);
+            }else {
+                getFilter().filter(s);
+            }
             return true;
         }
 

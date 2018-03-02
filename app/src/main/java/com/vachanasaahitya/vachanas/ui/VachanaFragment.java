@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.vachanasaahitya.vachanas.R;
-import com.vachanasaahitya.vachanas.data.Vachanakaara;
 
 /**
  * Created by narensmac on 26/02/18.
@@ -44,6 +43,8 @@ public class VachanaFragment extends DialogFragment{
             if(!TextUtils.isEmpty(title)) {
                 getDialog().setTitle(title);
             }
+            setStyle(DialogFragment.STYLE_NORMAL, 0);
+            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             ((TextView)getView().findViewById(R.id.detail_vachana)).setText(vachana);
         }
     }

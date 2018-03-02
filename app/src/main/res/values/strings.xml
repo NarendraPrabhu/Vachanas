@@ -4,8 +4,8 @@
     <string name="activity_name_vachanas">ವಚನಗಳು</string>
     <string name="search_title">ಹುಡುಕಿ</string>
     <string name="info_title">ಮಾಹಿತಿ</string>
-    <string name="search_hint_vachanakaara">ಬಸವಣ್ಣ</string>
-    <string name="search_hint_vachana">ಕಳಬೇಡ ಕೊಲಬೇಡ</string>
+    <string name="search_hint_vachanakaara">ಬಸವಣ್ಣ..</string>
+    <string name="search_hint_vachana">ಕಳಬೇಡ ಕೊಲಬೇಡ..</string>
     <string name="search_info_vachanagaLu">ಕೆಳಕಂಡ ಪಟ್ಟಿ ಕೇವಲ \'%s\'-ಶಿವಶರಣರ ವಚನಗಳು ಮಾತ್ರ, ಬೇರಾವುದಾದರೂ ಅಲ್ಲವೇ ಬೇರೆ ಶಿವಶರಣರುಗಳ ವಚನ(ಗಳು) ಬೇಕೆಂದಿದ್ದಲ್ಲಿ \'ಹುಡುಕು\' ಸಂಜ್ಞೆಯನ್ನು ಒತ್ತಿ, ತಿಳಿದಿರುವಷ್ಟು ವಚನದ, ಅಲ್ಲವೇ ವಚನಕಾರರ ಹೆಸರಿನ ಅಲ್ಲವೇ ಅವರ ಅಂಕಿತನಾಮದ ಕುರುಹನ್ನು ಕನ್ನಡದಲ್ಲೇ ಬರೆಯಿರಿ</string>
     <string name="search_info_vachanakaararu">ಕೆಳಕಂಡ ಪಟ್ಟಿ ಬರೇ ವಚನಕಾರರುಗಳದ್ದು ಮಾತ್ರ, ಇಲ್ಲಿನ  \'ಹುಡುಕು\' ಸಂಜ್ಞೆ - ಬರೆದ ಅಕ್ಷರಗಳುಳ್ಳ ವಚನಕಾರರ(ರುಗಳ) ಹೆಸರಿಗೆ ಅಲ್ಲದೆ ಅಂಕಿತನಾಮಕ್ಕೆ ಒಪ್ಪವಾಗಿ ಅವರ(ರುಗಳ) ಬಗ್ಗೆ ಮಾಹಿತಿಯನ್ನು, ಹಾಗೂ ಅವರ(ರುಗಳ)ದ್ದಷ್ಟೇ ವಚನಗಳ ಪಟ್ಟಿಗೆ ಹೋಗಲು ಒದವಾಗುತ್ತದೆ.\n\nಅದಲ್ಲದೆ, ವಚನಕಾರರು ತಿಳಿಯದಿರುವ ಯಾವುದಾದರೂ ವಚನವನ್ನು ಹುಡುಕ ಬಯಸಿದ್ದಲ್ಲಿ ಕೆಳಕಂಡ ಯಾವುದೇ ವಚನಕಾರರನ್ನು ಒತ್ತಿ ಒಳಗೆ ಹೋಗಿ, ಅಲ್ಲಿ \'ಹುಡುಕು\' ಸಂಜ್ಞೆಯ ಜಾಡುಹಿಡಿದು, ಯಾವುದೇ ವಚನಕಾರರ ವಚನಗಳನ್ನು ಹುಡುಕಬಹುದು.</string>
     <string name="details_vachanakaara"> ಅಂಕಿತನಾಮ  %s \n\n ಹುಟ್ಟು  %s \n\n ನೆಲೆ  %s \n\n ತಾಯಿತಂದೆಯಂದಿರು  %s \n\n ದೊರಕಿರುವ ವಚನಗಳು  %s \n\n ವಿವರ   %s.</string>

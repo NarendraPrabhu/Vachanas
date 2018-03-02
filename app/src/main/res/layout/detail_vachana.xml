@@ -6,14 +6,15 @@
     <ScrollView
         android:layout_width="match_parent"
         android:scrollbars="vertical"
+        android:padding="20dp"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent"
             android:textStyle="bold"
             android:gravity="center"
-            android:padding="20dp"
-            android:textSize="16sp"
-            android:lineSpacingExtra="2dp"
+            android:padding="2dp"
+            android:textSize="18sp"
+            android:lineSpacingExtra="3dp"
             android:id="@+id/detail_vachana"
             android:layout_height="match_parent"/>
     </ScrollView>

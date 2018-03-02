@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,13 +28,12 @@ import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 
 public class VachanakaarasActivity extends ListActivity {
 
-
     private VachanakaarasAdapter mAdapter = new VachanakaarasAdapter();
-    private SearchView mSearchView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.list);
         setListAdapter(mAdapter);
         Cursor cursor = mAdapter.getCursor("");
         mAdapter.swapCursor(cursor);
@@ -45,9 +43,10 @@ public class VachanakaarasActivity extends ListActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.search_menu, menu);
-        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        mSearchView.setOnQueryTextListener(mAdapter);
-        mSearchView.setIconified(false);
+        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setOnQueryTextListener(mAdapter);
+        searchView.setQueryHint(getString(R.string.search_hint_vachanakaara));
+        searchView.setIconified(false);
         return true;
     }
 
@@ -79,30 +78,6 @@ public class VachanakaarasActivity extends ListActivity {
             vf.show(getFragmentManager(), v.getName());
         }
     };
-
-    @Override
-    public void onBackPressed() {
-        if(closeSearchView()){
-            return;
-        }
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if((keyCode == KeyEvent.KEYCODE_BACK) && closeSearchView()){
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    private boolean closeSearchView(){
-        if(mSearchView != null && mSearchView.isIconified()){
-            mSearchView.setIconified(false);
-            return  true;
-        }
-        return false;
-    }
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
@@ -139,7 +114,7 @@ public class VachanakaarasActivity extends ListActivity {
             String details = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DETAILS));
             Vachanakaara v = new Vachanakaara(name, details);
             ((TextView)view.findViewById(R.id.vachanakaara_name)).setText(v.getName());
-            ((TextView)view.findViewById(R.id.vachanakaara_details)).setText(details);
+            ((TextView)view.findViewById(R.id.vachanakaara_details)).setText(details.replace("(ಆಧಾರ: ಸಮಗ್ರ ವಚನ ಸಂಪುಟ)", ""));
             view.findViewById(R.id.vachanakaara_info).setTag(v);
             view.setTag(v);
         }

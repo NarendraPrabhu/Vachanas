@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.vachanasaahitya.vachanas.R;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
 
-import org.w3c.dom.Text;
-
 /**
  * Created by narensmac on 26/02/18.
  */
@@ -42,6 +40,7 @@ public class VachanakaaraFragment extends DialogFragment{
         super.onResume();
         if(getView() != null){
             getDialog().setTitle(vachanakaara.getName());
+            getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             String details = getString(R.string.details_vachanakaara);
             details = String.format(details, vachanakaara.getPenName(), vachanakaara.getPeriod(), vachanakaara.getBirthPlace(), vachanakaara.getParents(), vachanakaara.getObtainedNumbers(), vachanakaara.getDetails());
             ((TextView)getView().findViewById(R.id.detail_vachana)).setText(details);
