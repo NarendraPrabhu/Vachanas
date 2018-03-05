@@ -23,7 +23,7 @@ import java.io.InputStream;
 public class DatabaseHelper {
 
     private static final int version = 1;
-    private static final String DB_NAME = "vachanas.db";
+    private static final String DB_NAME = "1.vc";
 
     private static final String TABLE_VACHANAKAARAS = "Vachanakaaraas";
     private static final String TABLE_VACHANAAS = "Vachanas";
@@ -43,12 +43,11 @@ public class DatabaseHelper {
                 file.delete();
             }
         }
-
         if(file.exists() && file.length() > 0){
             value = true;
         }else {
             try {
-                InputStream is = context.getAssets().open(DB_NAME);
+                InputStream is = context.getAssets().open("1.vc");
                 FileOutputStream fos = context.openFileOutput(DB_NAME, Context.MODE_APPEND);
                 value = (IOUtils.copy(is, fos) > 0);
                 IOUtils.closeQuietly(is);
