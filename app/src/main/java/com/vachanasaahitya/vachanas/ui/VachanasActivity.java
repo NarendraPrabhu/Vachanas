@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,6 +23,9 @@ import com.vachanasaahitya.vachanas.R;
 import com.vachanasaahitya.vachanas.data.Vachana;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by narensmac on 26/02/18.

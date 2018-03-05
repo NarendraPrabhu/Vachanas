@@ -15,6 +15,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by narensmac on 26/02/18.
@@ -27,12 +29,18 @@ public class DatabaseHelper {
 
     private static final String TABLE_VACHANAKAARAS = "Vachanakaaraas";
     private static final String TABLE_VACHANAAS = "Vachanas";
+    private static final String TABLE_MEANINGS = "meanings";
+
     private static final String COLUMN_URL = "url";
     private static final String COLUMN_ID = "_id";
 
     public static final String COLUMN_VACHANA = "vachana";
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DETAILS = "details";
+
+    private static final String COLUMN_WORD = "word";
+    private static final String COLUMN_MEANING = "meaning";
+
 
     public static boolean copyFile(Context context){
         boolean value = false;
@@ -135,5 +143,24 @@ public class DatabaseHelper {
             return null;
         }
         return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, COLUMN_NAME);
+    }
+
+    public static List<String> findMeaning(Context context, String word){
+        List<String> meanings = new ArrayList<>();
+        SQLiteDatabase db = getDB(context);
+        if(db == null){
+            return null;
+        }
+        String selection = COLUMN_WORD+" LIKE '%"+word+"%'";
+
+        Cursor cursor = db.query(TABLE_MEANINGS, new String[]{COLUMN_WORD, COLUMN_MEANING}, selection, null, null, null, null);
+        if(cursor != null && cursor.moveToFirst()){
+            do{
+                meanings.add(cursor.getString(0)+" : "+cursor.getString(1));
+            }while (cursor.moveToNext());
+            cursor.close();
+        }
+        cursor = null;
+        return  meanings;
     }
 }
