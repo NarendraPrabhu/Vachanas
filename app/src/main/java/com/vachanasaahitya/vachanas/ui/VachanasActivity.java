@@ -59,6 +59,7 @@ public class VachanasActivity extends ListActivity {
             Bundle bundle = new Bundle();
             bundle.putString(VachanaFragment.EXTRA_VACHANA, vachana.getVachana());
             bundle.putString(VachanaFragment.EXTRA_SHEERSHIKE, vachana.getName());
+            bundle.putBoolean(VachanaFragment.EXTRA_IS_VACHANA, true);
             vf.setArguments(bundle);
             vf.show(getFragmentManager(), "Vachana_details");
         }

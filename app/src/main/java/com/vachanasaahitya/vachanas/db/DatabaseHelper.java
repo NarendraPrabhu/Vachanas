@@ -38,8 +38,8 @@ public class DatabaseHelper {
     public static final String COLUMN_NAME = "name";
     public static final String COLUMN_DETAILS = "details";
 
-    private static final String COLUMN_WORD = "word";
-    private static final String COLUMN_MEANING = "meaning";
+    public static final String COLUMN_WORD = "word";
+    public static final String COLUMN_MEANING = "meaning";
 
 
     public static boolean copyFile(Context context){
@@ -163,4 +163,14 @@ public class DatabaseHelper {
         cursor = null;
         return  meanings;
     }
+
+    public static Cursor queryMeanings(Context context, String word){
+        SQLiteDatabase db = getDB(context);
+        if(db == null){
+            return null;
+        }
+        String selection = COLUMN_WORD+" LIKE '%"+word+"%'";
+        return db.query(TABLE_MEANINGS, new String[]{COLUMN_ID, COLUMN_WORD, COLUMN_MEANING}, selection, null, null, null, null);
+    }
+
 }

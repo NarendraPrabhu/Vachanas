@@ -3,6 +3,19 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:hint="@string/word"
+        android:id="@+id/detail_search_word"
+        android:drawablePadding="3dp"
+        android:minHeight="30dp"
+        android:layout_height="wrap_content"/>
     <ScrollView
         android:layout_width="match_parent"
         android:scrollbars="vertical"
@@ -17,7 +30,9 @@
             android:textSize="18sp"
             android:lineSpacingExtra="3dp"
             android:id="@+id/detail_vachana"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+            <requestFocus/>
+        </TextView>
     </ScrollView>
 
 </LinearLayout>

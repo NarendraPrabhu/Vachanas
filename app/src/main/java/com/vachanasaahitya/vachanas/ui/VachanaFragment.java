@@ -2,6 +2,7 @@ package com.vachanasaahitya.vachanas.ui;
 
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -18,18 +19,18 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.LinearLayout;
+import android.widget.AutoCompleteTextView;
+import android.widget.FilterQueryProvider;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
+import android.widget.SearchView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vachanasaahitya.vachanas.R;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,8 +41,10 @@ public class VachanaFragment extends DialogFragment{
 
     public static final String EXTRA_VACHANA = "vachana";
     public static final String EXTRA_SHEERSHIKE = "sheershike";
+    public static final String EXTRA_IS_VACHANA = "is_vachana";
     private String vachana = null;
     private String title = null;
+    private boolean isVachana = false;
 
     private PopupWindow mPopupWindow = null;
 
@@ -50,6 +53,7 @@ public class VachanaFragment extends DialogFragment{
         super.setArguments(args);
         vachana = args.getString(EXTRA_VACHANA);
         title = args.getString(EXTRA_SHEERSHIKE);
+        isVachana = args.getBoolean(EXTRA_IS_VACHANA);
     }
 
     @Nullable
@@ -65,6 +69,21 @@ public class VachanaFragment extends DialogFragment{
     public void onResume() {
         super.onResume();
         if(getView() != null){
+            AutoCompleteTextView searchView = (AutoCompleteTextView) getView().findViewById(R.id.detail_search_word);
+            searchView.setVisibility(isVachana ? View.VISIBLE : View.GONE);
+            if(isVachana) {
+                String[] cursorMapping = new String[]{DatabaseHelper.COLUMN_WORD, DatabaseHelper.COLUMN_MEANING};
+                int[] views = new int[]{R.id.detail_search_entry_word, R.id.detail_search_entry_meaning};
+                SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.detail_word_search_entry, null, cursorMapping, views);
+                cursorAdapter.setFilterQueryProvider(new FilterQueryProvider() {
+                    @Override
+                    public Cursor runQuery(CharSequence charSequence) {
+                        return DatabaseHelper.queryMeanings(getActivity(), charSequence.toString());
+                    }
+                });
+                searchView.setAdapter(cursorAdapter);
+            }
+
             if(!TextUtils.isEmpty(title)) {
                 getDialog().setTitle(title);
             }
@@ -74,6 +93,18 @@ public class VachanaFragment extends DialogFragment{
             ((TextView)getView().findViewById(R.id.detail_vachana)).setText(vachana);
         }
     }
+
+    private SearchView.OnQueryTextListener onQueryTextListener = new SearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String s) {
+            return false;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String s) {
+            return false;
+        }
+    };
 
     private DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
         @Override
@@ -126,7 +157,11 @@ public class VachanaFragment extends DialogFragment{
                 mTextView.getLayout().getSelectionPath(min, max, selectionDestination);
                 selectionDestination.computeBounds(selectionBounds, true /* this param is ignored */);
                 selectionBounds.roundOut(outputBounds);
-                showMeanings(meanings, outputBounds.left, outputBounds.bottom);
+                if(meanings != null && meanings.size() > 0) {
+                    showMeanings(meanings, outputBounds.left, outputBounds.bottom);
+                }else{
+                    Toast.makeText(getActivity(),R.string.word_warning, Toast.LENGTH_LONG).show();
+                }
                 actionMode.finish();
             }
             return false;
@@ -148,17 +183,15 @@ public class VachanaFragment extends DialogFragment{
         int color = getActivity().getResources().getColor(R.color.color_list_bg);
         mPopupWindow = new PopupWindow(getActivity());
         mPopupWindow.setWidth(value);
-        mPopupWindow.setElevation(10f);
         mPopupWindow.setHeight(value);
-        mPopupWindow.setBackgroundDrawable(new ColorDrawable(color));
         ScrollView sv = new ScrollView(getActivity());
         TextView tv = new TextView(getActivity());
         tv.setTextSize(18);
-        tv.setBackgroundColor(color);
         tv.setPadding(20,20,20,20);
         tv.setGravity(Gravity.CENTER_VERTICAL|Gravity.LEFT);
         tv.setText(buffer.toString());
-        sv.addView(tv, new ScrollView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        sv.setBackgroundColor(color);
+        sv.addView(tv);
         mPopupWindow.setContentView(sv);
         mPopupWindow.setFocusable(true);
         mPopupWindow.showAtLocation(getView(), 0, x, y);

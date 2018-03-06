@@ -11,9 +11,13 @@
         android:theme="@style/AppTheme">
 
         <activity android:name=".ui.VachanakaarasActivity"
+                  android:screenOrientation="portrait"
+                  android:resizeableActivity="false"
             android:label="@string/activity_name_vachanakaras"/>
 
         <activity android:name=".ui.LaunchActivity"
+                  android:resizeableActivity="false"
+                  android:screenOrientation="portrait"
                   android:label="@string/app_name" android:theme="@style/AppTheme.NotitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -22,6 +26,8 @@
         </activity>
 
         <activity android:name=".ui.VachanasActivity"
+                  android:resizeableActivity="false"
+                  android:screenOrientation="portrait"
             android:label="@string/activity_name_vachanas">
         </activity>
     </application>
