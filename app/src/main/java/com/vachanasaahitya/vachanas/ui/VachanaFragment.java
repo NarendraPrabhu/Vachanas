@@ -83,7 +83,7 @@ public class VachanaFragment extends DialogFragment{
                 });
                 searchView.setAdapter(cursorAdapter);
             }
-
+            ((TextView)getView().findViewById(R.id.detail_vachana)).setTextIsSelectable(isVachana);
             if(!TextUtils.isEmpty(title)) {
                 getDialog().setTitle(title);
             }

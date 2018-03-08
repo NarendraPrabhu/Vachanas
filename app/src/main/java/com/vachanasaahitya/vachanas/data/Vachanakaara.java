@@ -50,27 +50,27 @@ public final class Vachanakaara implements Parcelable{
     }
 
     public String getPenName() {
-        return TextUtils.isEmpty(penName) ? "" : penName;
+        return TextUtils.isEmpty(penName) ? "" : penName.replace(":","").trim();
     }
 
     public String getBirthPlace() {
-        return TextUtils.isEmpty(birthPlace) ? "" : birthPlace;
+        return TextUtils.isEmpty(birthPlace) ? "" : birthPlace.replace(":","").trim();
     }
 
     public String getPeriod() {
-        return TextUtils.isEmpty(period) ? "" : period;
+        return TextUtils.isEmpty(period) ? "" : period.replace(":","").trim();
     }
 
     public String getParents() {
-        return TextUtils.isEmpty(parents) ? "" : parents;
+        return TextUtils.isEmpty(parents) ? "" : parents.replace(":","").trim();
     }
 
     public String getDetails() {
-        return TextUtils.isEmpty(details) ? "" : details;
+        return TextUtils.isEmpty(details) ? "" : details.replace(":","").trim();
     }
 
     public String getObtainedNumbers() {
-        return TextUtils.isEmpty(obtainedNumbers) ? "" : obtainedNumbers.replace("(ಆಧಾರ: ಸಮಗ್ರ ವಚನ ಸಂಪುಟ)", "");
+        return TextUtils.isEmpty(obtainedNumbers) ? "" : obtainedNumbers.replace(":", "").replace("(ಆಧಾರ: ಸಮಗ್ರ ವಚನ ಸಂಪುಟ)", "").trim();
     }
 
     @Override

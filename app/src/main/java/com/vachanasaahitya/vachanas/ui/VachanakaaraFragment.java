@@ -3,6 +3,7 @@ package com.vachanasaahitya.vachanas.ui;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,11 +40,45 @@ public class VachanakaaraFragment extends DialogFragment{
     public void onResume() {
         super.onResume();
         if(getView() != null){
+            getView().findViewById(R.id.detail_search_word).setVisibility(View.GONE);
+            ((TextView)getView().findViewById(R.id.detail_vachana)).setTextIsSelectable(false);
             getDialog().setTitle(vachanakaara.getName());
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            String details = getString(R.string.details_vachanakaara);
-            details = String.format(details, vachanakaara.getPenName(), vachanakaara.getPeriod(), vachanakaara.getBirthPlace(), vachanakaara.getParents(), vachanakaara.getObtainedNumbers(), vachanakaara.getDetails());
-            ((TextView)getView().findViewById(R.id.detail_vachana)).setText(details);
+            StringBuffer buffer = new StringBuffer();
+            if(!TextUtils.isEmpty(vachanakaara.getPenName())){
+                buffer.append(String.format(getString(R.string.details_pen_name), vachanakaara.getPenName()));
+            }
+            if(!TextUtils.isEmpty(vachanakaara.getPeriod())){
+                if(!TextUtils.isEmpty(buffer.toString())){
+                    buffer.append("\n\n");
+                }
+                buffer.append(String.format(getString(R.string.details_birth_time), vachanakaara.getPeriod()));
+            }
+            if(!TextUtils.isEmpty(vachanakaara.getBirthPlace())){
+                if(!TextUtils.isEmpty(buffer.toString())){
+                    buffer.append("\n\n");
+                }
+                buffer.append(String.format(getString(R.string.details_place), vachanakaara.getBirthPlace()));
+            }
+            if(!TextUtils.isEmpty(vachanakaara.getParents())){
+                if(!TextUtils.isEmpty(buffer.toString())){
+                    buffer.append("\n\n");
+                }
+                buffer.append(String.format(getString(R.string.details_parents), vachanakaara.getParents()));
+            }
+            if(!TextUtils.isEmpty(vachanakaara.getObtainedNumbers())){
+                if(!TextUtils.isEmpty(buffer.toString())){
+                    buffer.append("\n\n");
+                }
+                buffer.append(String.format(getString(R.string.details_obtained), vachanakaara.getObtainedNumbers()));
+            }
+            if(!TextUtils.isEmpty(vachanakaara.getDetails())){
+                if(!TextUtils.isEmpty(buffer.toString())){
+                    buffer.append("\n\n");
+                }
+                buffer.append(String.format(getString(R.string.details_more), vachanakaara.getDetails()));
+            }
+            ((TextView)getView().findViewById(R.id.detail_vachana)).setText(buffer.toString());
         }
     }
 }
