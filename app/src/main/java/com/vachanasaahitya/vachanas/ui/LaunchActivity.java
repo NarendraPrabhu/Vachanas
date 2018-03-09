@@ -26,12 +26,5 @@ public class LaunchActivity extends Activity{
                 finish();
             }
         });
-
-        findViewById(R.id.launch_crash).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Crashlytics.getInstance().crash();
-            }
-        });
     }
 }
