@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "768658876772",
+    "firebase_url": "https://vachana-kammata.firebaseio.com",
+    "project_id": "vachana-kammata",
+    "storage_bucket": "vachana-kammata.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:768658876772:android:0f231e1b11691203",
+        "android_client_info": {
+          "package_name": "com.vachanasaahitya.vachanas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "768658876772-0rdst2r6mkm2ovn4qh6csuomiut2la3n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD6USSJf1w3ThHC6A6TmOh4KV3ZbVFBlr4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

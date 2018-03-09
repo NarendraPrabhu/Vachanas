@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.crashlytics.android.Crashlytics;
 import com.vachanasaahitya.vachanas.R;
 
 /**
@@ -23,6 +24,13 @@ public class LaunchActivity extends Activity{
             public void onClick(View view) {
                 startActivity(new Intent(LaunchActivity.this, VachanakaarasActivity.class));
                 finish();
+            }
+        });
+
+        findViewById(R.id.launch_crash).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Crashlytics.getInstance().crash();
             }
         });
     }
