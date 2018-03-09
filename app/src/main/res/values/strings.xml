@@ -3,6 +3,7 @@
     <string name="activity_name_vachanakaras">ವಚನಕಾರರು</string>
     <string name="activity_name_vachanas">ವಚನಗಳು</string>
     <string name="search_title">ಹುಡುಕಿ</string>
+    <string name="sort_title">ಮರುಜೋಡಿಸಿ</string>
     <string name="info_title">ಮಾಹಿತಿ</string>
     <string name="search_hint_vachanakaara">ಬಸವಣ್ಣ..</string>
     <string name="search_hint_vachana">ಕಳಬೇಡ ಕೊಲಬೇಡ..</string>
@@ -19,4 +20,6 @@
     <string name="details_parents">ತಾಯಿತಂದೆಯಂದಿರು : %s </string>
     <string name="details_obtained">ದೊರಕಿರುವ ವಚನಗಳು : %s </string>
     <string name="details_more">ವಿವರ :  %s</string>
+    <string name="sort_sub_menu_name">ಹೆಸರಿನಂತೆ</string>
+    <string name="sort_sub_menu_numbers">ದೊರಕಿರುವ ವಚನಗಳ ಅಂಕಿಗಳಂತೆ</string>
 </resources>

@@ -6,7 +6,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -23,9 +22,6 @@ import com.vachanasaahitya.vachanas.R;
 import com.vachanasaahitya.vachanas.data.Vachana;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by narensmac on 26/02/18.
@@ -68,11 +64,17 @@ public class VachanasActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search_menu, menu);
+        inflater.inflate(R.menu.menu, menu);
         SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
         searchView.setOnQueryTextListener(mAdapter);
         searchView.setQueryHint(getString(R.string.search_hint_vachana));
         return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.sort).setVisible(false);
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override

@@ -24,6 +24,11 @@ import java.util.List;
 
 public class DatabaseHelper {
 
+    public enum SortVachanaKaaras{
+        BY_NAME,
+        BY_NUMBERS
+    }
+
     private static final int version = 1;
     private static final String DB_NAME = "1.vc";
 
@@ -92,22 +97,26 @@ public class DatabaseHelper {
         return db;
     }
 
-    public static Cursor searchVachanakaara(Context context, String value){
-        String selection = null;
-        if(!TextUtils.isEmpty(value)){
-            selection = COLUMN_NAME+" LIKE '%"+value+"%' OR "+COLUMN_DETAILS+" LIKE '%"+value+"%'";
-        }
-        SQLiteDatabase db = getDB(context);
-        if(db == null){
-            return null;
-        }
+    public static Cursor searchVachanakaara(Context context, String value, SortVachanaKaaras sort){
         Cursor cursor = null;
-        try{
-            cursor = db.query(TABLE_VACHANAKAARAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DETAILS}, selection, null, null, null, COLUMN_NAME);
-        }catch (SQLiteException se){
-            se.printStackTrace();
-        }catch (IllegalArgumentException iae){
-            iae.printStackTrace();
+        if(sort == SortVachanaKaaras.BY_NAME) {
+            String selection = null;
+            if (!TextUtils.isEmpty(value)) {
+                selection = COLUMN_NAME + " LIKE '%" + value + "%' OR " + COLUMN_DETAILS + " LIKE '%" + value + "%'";
+            }
+            SQLiteDatabase db = getDB(context);
+            if (db == null) {
+                return null;
+            }
+            try {
+                cursor = db.query(TABLE_VACHANAKAARAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_DETAILS}, selection, null, null, null, COLUMN_NAME);
+            } catch (SQLiteException se) {
+                se.printStackTrace();
+            } catch (IllegalArgumentException iae) {
+                iae.printStackTrace();
+            }
+        }else{
+            cursor = searchVachanakaarasByNumbers(context, value);
         }
         return cursor;
     }
@@ -171,6 +180,20 @@ public class DatabaseHelper {
         }
         String selection = COLUMN_WORD+" LIKE '%"+word+"%'";
         return db.query(TABLE_MEANINGS, new String[]{COLUMN_ID, COLUMN_WORD, COLUMN_MEANING}, selection, null, null, null, null);
+    }
+
+    private static Cursor searchVachanakaarasByNumbers(Context context, String search){
+        if(TextUtils.isEmpty(search)){
+            search = "";
+        }else{
+            search =  " where Vachanas.name LIKE '%"+search+"%' ";
+        }
+        String query = "select Vachanakaaraas._id, Vachanakaaraas.name, Vachanakaaraas.details, count(Vachanas.name) as counter from Vachanas inner join Vachanakaaraas on Vachanakaaraas.name=Vachanas.name"+search+" group by Vachanas.name order by counter desc;";
+        SQLiteDatabase db = getDB(context);
+        if(db == null){
+            return null;
+        }
+        return db.rawQuery(query, null);
     }
 
 }

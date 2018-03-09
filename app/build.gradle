@@ -7,9 +7,8 @@ android {
         applicationId "com.vachanasaahitya.vachanas"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 20
-        versionName "1.0.0.12"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        versionCode 21
+        versionName "1.0.0.13"
     }
     buildTypes {
         release {
