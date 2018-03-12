@@ -3,19 +3,53 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <AutoCompleteTextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="3dp"
-        android:hint="@string/word"
-        android:id="@+id/detail_search_word"
-        android:drawablePadding="3dp"
-        android:minHeight="30dp"
-        android:layout_height="wrap_content"/>
+        android:id="@+id/detail_tools"
+        android:layout_height="wrap_content">
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:hint="@string/word"
+            android:id="@+id/detail_search_word"
+            android:drawablePadding="3dp"
+            android:minHeight="30dp"
+            android:layout_height="wrap_content"/>
+        <ImageButton
+            android:layout_width="35dp"
+            android:src="@drawable/share"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:layout_below="@id/detail_search_word"
+            android:layout_marginStart="3dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:background="@android:drawable/menuitem_background"
+            android:layout_centerVertical="true"
+            android:id="@+id/detail_tools_share"
+            android:layout_height="35dp"/>
+        <ImageButton
+            android:layout_width="35dp"
+            android:src="@drawable/copy"
+            android:adjustViewBounds="true"
+            android:layout_below="@id/detail_search_word"
+            android:layout_toStartOf="@id/detail_tools_share"
+            android:background="@android:drawable/menuitem_background"
+            android:layout_toLeftOf="@id/detail_tools_share"
+            android:layout_margin="3dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/detail_tools_copy"
+            android:layout_height="35dp"/>
+    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:scrollbars="vertical"
@@ -34,5 +68,4 @@
             <requestFocus/>
         </TextView>
     </ScrollView>
-
 </LinearLayout>

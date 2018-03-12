@@ -22,4 +22,7 @@
     <string name="details_more">ವಿವರ :  %s</string>
     <string name="sort_sub_menu_name">ಹೆಸರಿನಂತೆ</string>
     <string name="sort_sub_menu_numbers">ದೊರಕಿರುವ ವಚನಗಳ ಅಂಕಿಗಳಂತೆ</string>
+    <string name="vachana_copied">ವಚನವನ್ನು ಮುಖ್ಯ ಕ್ಲಿಪ್ಬೋರ್ಡಿನಲ್ಲಿ ಉಳಿಸಿರಿಸಲಾಗಿದೆ</string>
+    <string name="select_app">ಹಂಚಲು ಬಳಕೆಯನ್ನು ಆರಿಸಿ</string>
+    <string name="warning_no_app">ವಚನ ಹಂಚಲು ಈ ಸಾಧನದಲ್ಲಿ ಯಾವುದೇ ಬಳಕೆಗಳಿಲ್ಲ</string>
 </resources>

@@ -40,7 +40,9 @@ public class VachanakaaraFragment extends DialogFragment{
     public void onResume() {
         super.onResume();
         if(getView() != null){
-            getView().findViewById(R.id.detail_search_word).setVisibility(View.GONE);
+
+            getView().findViewById(R.id.detail_tools).setVisibility(View.GONE);
+
             ((TextView)getView().findViewById(R.id.detail_vachana)).setTextIsSelectable(false);
             getDialog().setTitle(vachanakaara.getName());
             getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

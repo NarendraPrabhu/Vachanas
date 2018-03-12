@@ -1,7 +1,13 @@
 package com.vachanasaahitya.vachanas.ui;
 
 import android.app.DialogFragment;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Path;
 import android.graphics.Rect;
@@ -67,9 +73,13 @@ public class VachanaFragment extends DialogFragment{
     public void onResume() {
         super.onResume();
         if(getView() != null){
-            AutoCompleteTextView searchView = (AutoCompleteTextView) getView().findViewById(R.id.detail_search_word);
-            searchView.setVisibility(isVachana ? View.VISIBLE : View.GONE);
+            getView().findViewById(R.id.detail_tools).setVisibility(isVachana ? View.VISIBLE : View.GONE);
             if(isVachana) {
+
+                getView().findViewById(R.id.detail_tools_copy).setOnClickListener(onClickListener);
+                getView().findViewById(R.id.detail_tools_share).setOnClickListener(onClickListener);
+
+                AutoCompleteTextView searchView = (AutoCompleteTextView) getView().findViewById(R.id.detail_search_word);
                 String[] cursorMapping = new String[]{DatabaseHelper.COLUMN_WORD, DatabaseHelper.COLUMN_MEANING};
                 int[] views = new int[]{R.id.detail_search_entry_word, R.id.detail_search_entry_meaning};
                 SimpleCursorAdapter cursorAdapter = new SimpleCursorAdapter(getActivity(), R.layout.detail_word_search_entry, null, cursorMapping, views);
@@ -91,6 +101,34 @@ public class VachanaFragment extends DialogFragment{
             ((TextView)getView().findViewById(R.id.detail_vachana)).setText(vachana);
         }
     }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()){
+                case R.id.detail_tools_copy:
+                    ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText(title, vachana);
+                    clipboard.setPrimaryClip(clip);
+                    Toast.makeText(getActivity(), R.string.vachana_copied, Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.detail_tools_share:
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/*");
+                    intent.putExtra(Intent.EXTRA_TEXT, vachana);
+                    PackageManager pm = getActivity().getPackageManager();
+                    if(pm != null){
+                        List<ResolveInfo> infos = pm.queryIntentActivities(intent, 0);
+                        if(infos == null){
+                            Toast.makeText(getActivity(), R.string.warning_no_app, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        startActivity(Intent.createChooser(intent, getString(R.string.select_app)));
+                    }
+                    break;
+            }
+        }
+    };
 
     private DialogInterface.OnKeyListener onKeyListener = new DialogInterface.OnKeyListener() {
         @Override
