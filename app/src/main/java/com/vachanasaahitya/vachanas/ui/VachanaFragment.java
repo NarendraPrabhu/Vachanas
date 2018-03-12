@@ -105,17 +105,18 @@ public class VachanaFragment extends DialogFragment{
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            String data = vachana+"\n-\n"+title;
             switch (view.getId()){
-                case R.id.detail_tools_copy:
+            case R.id.detail_tools_copy:
                     ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText(title, vachana);
+                    ClipData clip = ClipData.newPlainText(title, data);
                     clipboard.setPrimaryClip(clip);
                     Toast.makeText(getActivity(), R.string.vachana_copied, Toast.LENGTH_SHORT).show();
                     break;
                 case R.id.detail_tools_share:
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/*");
-                    intent.putExtra(Intent.EXTRA_TEXT, vachana);
+                    intent.putExtra(Intent.EXTRA_TEXT, data);
                     PackageManager pm = getActivity().getPackageManager();
                     if(pm != null){
                         List<ResolveInfo> infos = pm.queryIntentActivities(intent, 0);

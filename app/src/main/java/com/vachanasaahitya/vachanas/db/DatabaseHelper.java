@@ -196,4 +196,45 @@ public class DatabaseHelper {
         return db.rawQuery(query, null);
     }
 
+
+    public static String getTodaysVachana(Context context){
+        String vachana = "";
+
+        SharedPreferences preferences = context.getSharedPreferences("Vachanas", Context.MODE_PRIVATE);
+        int i = preferences.getInt(TABLE_VACHANAKAARAS, -1);
+        ++i;
+        String name = null;
+        Cursor cursor = searchVachanakaara(context, "", SortVachanaKaaras.BY_NAME);
+        if(cursor != null && cursor.moveToFirst()){
+            int count = cursor.getCount();
+            i = i%count;
+            cursor.move(i);
+
+            preferences.edit().putInt(TABLE_VACHANAKAARAS, i).commit();
+
+            name =cursor.getString(cursor.getColumnIndex(COLUMN_NAME));
+            cursor.close();
+        }
+        if(TextUtils.isEmpty(name)){
+            return vachana;
+        }
+
+        i = preferences.getInt(name, -1);
+        ++i;
+        cursor = searchVachanas(context, name, "");
+        if(cursor != null && cursor.moveToFirst()){
+            int count = cursor.getCount();
+            i = i%count;
+            cursor.move(i);
+
+            preferences.edit().putInt(name, i).commit();
+
+            vachana = cursor.getString(cursor.getColumnIndex(COLUMN_VACHANA));
+            vachana += "\n-\n"+name+"\n\n";
+            cursor.close();
+        }
+
+        return vachana;
+    }
+
 }
