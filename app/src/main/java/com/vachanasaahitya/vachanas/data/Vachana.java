@@ -11,10 +11,16 @@ public class Vachana implements Parcelable{
 
     private final String name;
     private final String vachana;
+    private boolean isFavorite = false;
 
-    public Vachana(String name, String vachana){
+    public Vachana(String name, String vachana, boolean isFavorite){
         this.name = name;
         this.vachana =vachana;
+        this.isFavorite = isFavorite;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
     }
 
     protected Vachana(Parcel in) {

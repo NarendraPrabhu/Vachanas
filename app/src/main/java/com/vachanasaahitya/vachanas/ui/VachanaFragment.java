@@ -25,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FilterQueryProvider;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
@@ -33,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vachanasaahitya.vachanas.R;
+import com.vachanasaahitya.vachanas.data.Vachana;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 
 import java.util.List;
@@ -41,16 +44,27 @@ import java.util.List;
  * Created by narensmac on 26/02/18.
  */
 
-public class VachanaFragment extends DialogFragment{
+public class VachanaFragment extends DialogFragment implements CompoundButton.OnCheckedChangeListener{
+
+    public interface OnVachanaViewCompleteListener{
+        void done(Vachana vachana);
+    }
 
     public static final String EXTRA_VACHANA = "vachana";
     public static final String EXTRA_SHEERSHIKE = "sheershike";
     public static final String EXTRA_IS_VACHANA = "is_vachana";
+    public static final String EXTRA_IS_FAVORITE = "is_favorite";
     private String vachana = null;
     private String title = null;
     private boolean isVachana = false;
+    private boolean isFavorite = false;
+    private OnVachanaViewCompleteListener viewCompleteListener = null;
 
     private PopupWindow mPopupWindow = null;
+
+    public void setOnVachanaViewCompleteListener(OnVachanaViewCompleteListener viewCompleteListener) {
+        this.viewCompleteListener = viewCompleteListener;
+    }
 
     @Override
     public void setArguments(Bundle args) {
@@ -58,6 +72,7 @@ public class VachanaFragment extends DialogFragment{
         vachana = args.getString(EXTRA_VACHANA);
         title = args.getString(EXTRA_SHEERSHIKE);
         isVachana = args.getBoolean(EXTRA_IS_VACHANA);
+        isFavorite = args.getBoolean(EXTRA_IS_FAVORITE);
     }
 
     @Nullable
@@ -66,6 +81,7 @@ public class VachanaFragment extends DialogFragment{
         View view = inflater.inflate(R.layout.detail_vachana, null, false);
         TextView tv = (TextView)view.findViewById(R.id.detail_vachana);
         tv.setCustomSelectionActionModeCallback(new ShowMeaningCallback(tv));
+        ((CheckBox)view.findViewById(R.id.detail_tools_favorite)).setOnCheckedChangeListener(this);
         return view;
     }
 
@@ -78,7 +94,7 @@ public class VachanaFragment extends DialogFragment{
 
                 getView().findViewById(R.id.detail_tools_copy).setOnClickListener(onClickListener);
                 getView().findViewById(R.id.detail_tools_share).setOnClickListener(onClickListener);
-
+                ((CheckBox)getView().findViewById(R.id.detail_tools_favorite)).setChecked(isFavorite);
                 AutoCompleteTextView searchView = (AutoCompleteTextView) getView().findViewById(R.id.detail_search_word);
                 String[] cursorMapping = new String[]{DatabaseHelper.COLUMN_WORD, DatabaseHelper.COLUMN_MEANING};
                 int[] views = new int[]{R.id.detail_search_entry_word, R.id.detail_search_entry_meaning};
@@ -206,9 +222,6 @@ public class VachanaFragment extends DialogFragment{
         }
         int value = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 250, getActivity().getResources().getDisplayMetrics());
         int color = getActivity().getResources().getColor(R.color.color_list_bg);
-        mPopupWindow = new PopupWindow(getActivity());
-        mPopupWindow.setWidth(value);
-        mPopupWindow.setHeight(value);
         ScrollView sv = new ScrollView(getActivity());
         TextView tv = new TextView(getActivity());
         tv.setTextSize(18);
@@ -217,8 +230,26 @@ public class VachanaFragment extends DialogFragment{
         tv.setText(buffer.toString());
         sv.setBackgroundColor(color);
         sv.addView(tv);
+
+        mPopupWindow = new PopupWindow(getActivity());
+        mPopupWindow.setWidth(value);
+        mPopupWindow.setHeight(value);
         mPopupWindow.setContentView(sv);
         mPopupWindow.setFocusable(true);
         mPopupWindow.showAtLocation(getView(), 0, x, y);
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        isFavorite = b;
+        DatabaseHelper.setFavorite(getActivity(), new Vachana(title, vachana, isFavorite), b);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        if(viewCompleteListener != null){
+            viewCompleteListener.done(new Vachana(title, vachana, isFavorite));
+        }
+        super.onDismiss(dialog);
     }
 }

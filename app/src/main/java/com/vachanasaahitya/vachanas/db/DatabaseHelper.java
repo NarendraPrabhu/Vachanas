@@ -1,5 +1,6 @@
 package com.vachanasaahitya.vachanas.db;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -8,6 +9,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.text.TextUtils;
+
+import com.vachanasaahitya.vachanas.data.Vachana;
 
 import org.apache.commons.io.IOUtils;
 
@@ -45,7 +48,7 @@ public class DatabaseHelper {
 
     public static final String COLUMN_WORD = "word";
     public static final String COLUMN_MEANING = "meaning";
-
+    public static final String COLUMN_FAVORITE = "favorite";
 
     public static boolean copyFile(Context context){
         boolean value = false;
@@ -121,37 +124,56 @@ public class DatabaseHelper {
         return cursor;
     }
 
-    public static Cursor searchVachanas(Context context, String value){
+    public static Cursor searchVachanas(Context context, String value, boolean favorite){
         String selection = null;
         if(!TextUtils.isEmpty(value)){
             selection = COLUMN_VACHANA+" LIKE '%"+value+"%' OR "+COLUMN_NAME+" LIKE '%"+value+"%'";
+        }
+        if(favorite) {
+            if (TextUtils.isEmpty(selection)) {
+                selection = "";
+            }else{
+                selection += " AND ";
+            }
+            selection += (COLUMN_FAVORITE + " = " + (favorite ? 1 : 0));
         }
         SQLiteDatabase db = getDB(context);
         if(db == null){
             return null;
         }
-        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, COLUMN_NAME);
+        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA, COLUMN_FAVORITE}, selection, null, null, null, COLUMN_NAME);
     }
 
-    public static Cursor searchVachanas(Context context, String vachanakaara, String value){
+    public static Cursor searchVachanas(Context context, String vachanakaara, String value, boolean favorite){
 
-        String selection = "";
+        String selection = null;
 
         if(!TextUtils.isEmpty(vachanakaara)){
             selection = COLUMN_NAME+" LIKE '"+vachanakaara+"'";
         }
 
         if(!TextUtils.isEmpty(value)){
-            if(!TextUtils.isEmpty(selection)){
+            if (TextUtils.isEmpty(selection)) {
+                selection = "";
+            }else{
                 selection += " AND ";
             }
             selection += COLUMN_VACHANA+" LIKE '%"+value+"%'";
+        }
+
+        if(favorite) {
+            if (TextUtils.isEmpty(selection)) {
+                selection = "";
+            }else{
+                selection += " AND ";
+            }
+            selection += (COLUMN_FAVORITE + " = " + (favorite ? 1 : 0));
         }
         SQLiteDatabase db = getDB(context);
         if(db == null){
             return null;
         }
-        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA}, selection, null, null, null, COLUMN_NAME);
+        return db.query(TABLE_VACHANAAS, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_VACHANA, COLUMN_FAVORITE}, selection, null, null, null, COLUMN_NAME);
     }
 
     public static List<String> findMeaning(Context context, String word){
@@ -221,7 +243,7 @@ public class DatabaseHelper {
 
         i = preferences.getInt(name, -1);
         ++i;
-        cursor = searchVachanas(context, name, "");
+        cursor = searchVachanas(context, name, "", false);
         if(cursor != null && cursor.moveToFirst()){
             int count = cursor.getCount();
             i = i%count;
@@ -235,6 +257,13 @@ public class DatabaseHelper {
         }
 
         return vachana;
+    }
+
+    public static void setFavorite(Context context, Vachana vachana, boolean favorite){
+        SQLiteDatabase db = getDB(context);
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_FAVORITE, favorite ? 1 : 0);
+        db.update(TABLE_VACHANAAS, values, COLUMN_VACHANA+" LIKE '%"+vachana.getVachana()+"%'", null);
     }
 
 }

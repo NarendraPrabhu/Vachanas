@@ -49,6 +49,18 @@
             android:layout_centerVertical="true"
             android:id="@+id/detail_tools_copy"
             android:layout_height="35dp"/>
+        <CheckBox
+            android:layout_width="35dp"
+            android:button="@drawable/selector_favorite"
+            android:adjustViewBounds="true"
+            android:layout_below="@id/detail_search_word"
+            android:layout_toStartOf="@id/detail_tools_copy"
+            android:background="@android:drawable/menuitem_background"
+            android:layout_toLeftOf="@id/detail_tools_copy"
+            android:layout_margin="3dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/detail_tools_favorite"
+            android:layout_height="35dp" />
     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
