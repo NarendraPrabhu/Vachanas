@@ -133,7 +133,7 @@ public class DatabaseHelper {
             if (TextUtils.isEmpty(selection)) {
                 selection = "";
             }else{
-                selection += " AND ";
+                selection = "("+selection+") AND ";
             }
             selection += (COLUMN_FAVORITE + " = " + (favorite ? 1 : 0));
         }
@@ -165,7 +165,7 @@ public class DatabaseHelper {
             if (TextUtils.isEmpty(selection)) {
                 selection = "";
             }else{
-                selection += " AND ";
+                selection = "("+selection+") AND ";
             }
             selection += (COLUMN_FAVORITE + " = " + (favorite ? 1 : 0));
         }

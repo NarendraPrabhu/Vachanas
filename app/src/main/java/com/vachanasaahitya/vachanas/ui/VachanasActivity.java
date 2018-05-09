@@ -24,18 +24,19 @@ import com.vachanasaahitya.vachanas.ui.adapters.VachanasAdapter;
 public class VachanasActivity extends ListActivity implements VachanaFragment.OnVachanaViewCompleteListener{
 
     public static final String EXTRA_PARAM_VACHANAKAARA = "vachanakaara";
+    public static final String EXTRA_PARAM_FAVORITE = "favorite";
 
     private VachanasAdapter mAdapter = null;
     private Vachanakaara mVachanakaara = null;
+    private SearchView mSearchView = null;
+    private boolean favorite = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list);
         mVachanakaara = getIntent().getParcelableExtra(EXTRA_PARAM_VACHANAKAARA);
-        if(mVachanakaara == null){
-            finish();
-        }
+        favorite = getIntent().getBooleanExtra(EXTRA_PARAM_FAVORITE, false);
         mAdapter = new VachanasAdapter(this, mVachanakaara);
         setListAdapter(mAdapter);
     }
@@ -43,7 +44,16 @@ public class VachanasActivity extends ListActivity implements VachanaFragment.On
     @Override
     protected void onResume() {
         super.onResume();
-        Cursor cursor = mAdapter.getCursor("");
+        refresh();
+    }
+
+    private void refresh(){
+        String query = "";
+        if(mSearchView != null){
+            query = mSearchView.getQuery().toString();
+        }
+        mAdapter.setFavorite(favorite);
+        Cursor cursor = mAdapter.getCursor(query);
         mAdapter.swapCursor(cursor);
     }
 
@@ -67,15 +77,18 @@ public class VachanasActivity extends ListActivity implements VachanaFragment.On
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setOnQueryTextListener(mAdapter);
-        searchView.setQueryHint(getString(R.string.search_hint_vachana));
+        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        mSearchView.setOnQueryTextListener(mAdapter);
+        mSearchView.setQueryHint(getString(R.string.search_hint_vachana));
         return true;
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.favorite).setCheckable(true);
+        menu.findItem(R.id.favorite).setChecked(favorite);
+        menu.findItem(R.id.favorite).setIcon(favorite ? R.drawable.favorite_selected : R.drawable.favorite_normal);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -92,9 +105,12 @@ public class VachanasActivity extends ListActivity implements VachanaFragment.On
             return true;
         }
         if(item.getItemId() == R.id.favorite){
-            Intent intent = new Intent(this, FavoritesActivity.class);
-            intent.putExtra(FavoritesActivity.EXTRA_PARAM_VACHANAKAARA, mVachanakaara);
-            startActivity(intent);
+            boolean isChecked = item.isChecked();
+            isChecked = !isChecked;
+            item.setChecked(isChecked);
+            favorite = isChecked;
+            refresh();
+            item.setIcon(favorite ? R.drawable.favorite_selected : R.drawable.favorite_normal);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -102,7 +118,6 @@ public class VachanasActivity extends ListActivity implements VachanaFragment.On
 
     @Override
     public void done(Vachana vachana) {
-        Cursor cursor = mAdapter.getCursor("");
-        mAdapter.swapCursor(cursor);
+        refresh();
     }
 }

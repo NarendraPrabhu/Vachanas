@@ -96,7 +96,8 @@ public class VachanakaarasActivity extends ListActivity implements Vachanakaaras
             return true;
         }
         if(item.getItemId() == R.id.favorite){
-            Intent intent = new Intent(this, FavoritesActivity.class);
+            Intent intent = new Intent(this, VachanasActivity.class);
+            intent.putExtra(VachanasActivity.EXTRA_PARAM_FAVORITE, true);
             startActivity(intent);
             return true;
         }

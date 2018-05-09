@@ -33,6 +33,5 @@
             android:label="@string/activity_name_vachanas">
         </activity>
 
-        <activity android:name=".ui.FavoritesActivity" android:launchMode="singleInstance" android:label="@string/favorite"/>
     </application>
 </manifest>
