@@ -86,6 +86,7 @@ public class VachanasActivity extends ListActivity implements VachanaFragment.On
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.sort).setVisible(false);
+        menu.findItem(R.id.info).setVisible(mVachanakaara != null);
         menu.findItem(R.id.favorite).setCheckable(true);
         menu.findItem(R.id.favorite).setChecked(favorite);
         menu.findItem(R.id.favorite).setIcon(favorite ? R.drawable.favorite_selected : R.drawable.favorite_normal);
