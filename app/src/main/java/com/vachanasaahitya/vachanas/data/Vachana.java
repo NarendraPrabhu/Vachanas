@@ -19,10 +19,6 @@ public class Vachana implements Parcelable{
         this.isFavorite = isFavorite;
     }
 
-    public boolean isFavorite() {
-        return isFavorite;
-    }
-
     protected Vachana(Parcel in) {
         name = in.readString();
         vachana = in.readString();
@@ -57,6 +53,14 @@ public class Vachana implements Parcelable{
 
     public String getName() {
         return name;
+    }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override

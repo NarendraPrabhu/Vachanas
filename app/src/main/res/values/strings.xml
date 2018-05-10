@@ -29,4 +29,5 @@
     <string name="select_app">ಹಂಚಲು ಬಳಕೆಯನ್ನು ಆರಿಸಿ</string>
     <string name="warning_no_app">ವಚನ ಹಂಚಲು ಈ ಸಾಧನದಲ್ಲಿ ಯಾವುದೇ ಬಳಕೆಗಳಿಲ್ಲ</string>
     <string name="favorite">ನೆಚ್ಚಿನ ವಚನಗಳು</string>
+    <string name="favorite_info">ಈ ಮೊದಲು ನೀವು ಮೆಚ್ಚಿದ</string>
 </resources>

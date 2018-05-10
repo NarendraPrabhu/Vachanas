@@ -3,30 +3,32 @@ package com.vachanasaahitya.vachanas.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckedTextView;
 import android.widget.CursorAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.SearchView;
-import android.widget.TextView;
 
-import com.vachanasaahitya.vachanas.R;
 import com.vachanasaahitya.vachanas.data.Vachana;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
+import com.vachanasaahitya.vachanas.databinding.ItemVachanaBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
+import com.vachanasaahitya.vachanas.ui.events.VachanaItemEventListener;
 
 public class VachanasAdapter extends CursorAdapter implements SearchView.OnQueryTextListener, Filterable {
 
     private Activity mActivity = null;
     private Vachanakaara mVachanakaara = null;
     private boolean favorite = false;
-    public VachanasAdapter(Activity activity, Vachanakaara vachanakaara) {
+    private VachanaItemEventListener eventListener = null;
+    public VachanasAdapter(Activity activity, Vachanakaara vachanakaara, VachanaItemEventListener eventListener) {
         super(activity, null, false);
         this.mActivity = activity;
         this.mVachanakaara = vachanakaara;
+        this.eventListener = eventListener;
     }
 
     public void setFavorite(boolean favorite) {
@@ -45,8 +47,9 @@ public class VachanasAdapter extends CursorAdapter implements SearchView.OnQuery
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        View v = mActivity.getLayoutInflater().inflate(R.layout.item_vachana, null);
-        return v;
+        ItemVachanaBinding binding = ItemVachanaBinding.inflate(mActivity.getLayoutInflater());
+        binding.setEvents(eventListener);
+        return binding.getRoot();
     }
 
     @Override
@@ -55,10 +58,8 @@ public class VachanasAdapter extends CursorAdapter implements SearchView.OnQuery
         String vachana = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_VACHANA));
         boolean favorite = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_FAVORITE)) == 1;
         Vachana v = new Vachana(name, vachana, favorite);
-        ((TextView)view.findViewById(R.id.vachana_name)).setText(name);
-        ((TextView)view.findViewById(R.id.vachana_vachana)).setText(vachana);
-        ((CheckedTextView)view.findViewById(R.id.vachana_favorite)).setChecked(favorite);
-        view.setTag(v);
+        ItemVachanaBinding binding = DataBindingUtil.getBinding(view);
+        binding.setVachana(v);
     }
 
     @Override

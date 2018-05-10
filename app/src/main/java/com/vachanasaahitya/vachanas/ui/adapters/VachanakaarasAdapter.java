@@ -3,31 +3,28 @@ package com.vachanasaahitya.vachanas.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.databinding.DataBindingUtil;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.SearchView;
-import android.widget.TextView;
 
-import com.vachanasaahitya.vachanas.R;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
+import com.vachanasaahitya.vachanas.databinding.ItemVachanakaaraBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
+import com.vachanasaahitya.vachanas.ui.events.VachanakaaraItemEventListener;
 
-public class VachanakaarasAdapter extends CursorAdapter implements SearchView.OnQueryTextListener, Filterable, View.OnClickListener{
-
-    public interface OnVachanakaaraInfoClickListener{
-        void onVachanakaaraInfoClick(Vachanakaara vachana);
-    }
+public class VachanakaarasAdapter extends CursorAdapter implements SearchView.OnQueryTextListener, Filterable{
 
     private DatabaseHelper.SortVachanaKaaras sortBy = DatabaseHelper.SortVachanaKaaras.BY_NAME;
     private Activity mActivity = null;
-    private OnVachanakaaraInfoClickListener mVachanakaaraInfoClickListener = null;
+    private VachanakaaraItemEventListener eventListener = null;
 
-    public VachanakaarasAdapter(Activity activity, OnVachanakaaraInfoClickListener vachanakaaraInfoClickListener) {
+    public VachanakaarasAdapter(Activity activity, VachanakaaraItemEventListener eventListener) {
         super(activity, null, false);
-        this.mVachanakaaraInfoClickListener = vachanakaaraInfoClickListener;
+        this.eventListener = eventListener;
         this.mActivity = activity;
     }
 
@@ -45,11 +42,9 @@ public class VachanakaarasAdapter extends CursorAdapter implements SearchView.On
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        View v = mActivity.getLayoutInflater().inflate(R.layout.item_vachanakaara, null);
-        v.findViewById(R.id.vachanakaara_info).setOnClickListener(this);
-        v.findViewById(R.id.vachanakaara_info).setFocusable(false);
-        v.findViewById(R.id.vachanakaara_info).setFocusableInTouchMode(false);
-        return v;
+        ItemVachanakaaraBinding binding = ItemVachanakaaraBinding.inflate(mActivity.getLayoutInflater());
+        binding.setEvents(eventListener);
+        return binding.getRoot();
     }
 
     @Override
@@ -57,10 +52,8 @@ public class VachanakaarasAdapter extends CursorAdapter implements SearchView.On
         String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
         String details = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DETAILS));
         Vachanakaara v = new Vachanakaara(name, details);
-        ((TextView)view.findViewById(R.id.vachanakaara_name)).setText(v.getName());
-        ((TextView)view.findViewById(R.id.vachanakaara_details)).setText(details.replace("(ಆಧಾರ: ಸಮಗ್ರ ವಚನ ಸಂಪುಟ)", ""));
-        view.findViewById(R.id.vachanakaara_info).setTag(v);
-        view.setTag(v);
+        ItemVachanakaaraBinding binding = DataBindingUtil.getBinding(view);
+        binding.setVachanakaara(v);
     }
 
     @Override
@@ -91,15 +84,4 @@ public class VachanakaarasAdapter extends CursorAdapter implements SearchView.On
             }
         };
     }
-
-    @Override
-    public void onClick(View view) {
-        Vachanakaara v = (Vachanakaara)view.getTag();
-        if(v == null || mVachanakaaraInfoClickListener == null){
-            return;
-        }
-        mVachanakaaraInfoClickListener.onVachanakaaraInfoClick(v);
-
-    }
-
 }

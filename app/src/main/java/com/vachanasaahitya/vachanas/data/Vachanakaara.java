@@ -4,6 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
 
+import com.vachanasaahitya.vachanas.R;
+
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -66,7 +68,7 @@ public final class Vachanakaara implements Parcelable{
     }
 
     public String getDetails() {
-        return TextUtils.isEmpty(details) ? "" : details.replace(":","").trim();
+        return TextUtils.isEmpty(details) ? "" : details.replace(":","").replace("\\(ಆಧಾರ: ಸಮಗ್ರ ವಚನ ಸಂಪುಟ\\)", "").trim();
     }
 
     public String getObtainedNumbers() {
@@ -100,4 +102,6 @@ public final class Vachanakaara implements Parcelable{
             return new Vachanakaara[i];
         }
     };
+    
+
 }

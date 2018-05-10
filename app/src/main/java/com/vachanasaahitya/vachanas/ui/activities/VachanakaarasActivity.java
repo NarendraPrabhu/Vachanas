@@ -1,4 +1,4 @@
-package com.vachanasaahitya.vachanas.ui;
+package com.vachanasaahitya.vachanas.ui.activities;
 
 import android.app.ListActivity;
 import android.content.Context;
@@ -10,22 +10,20 @@ import android.support.annotation.Nullable;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.vachanasaahitya.vachanas.R;
-import com.vachanasaahitya.vachanas.data.Vachana;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 import com.vachanasaahitya.vachanas.ui.adapters.VachanakaarasAdapter;
-import com.vachanasaahitya.vachanas.ui.adapters.VachanasAdapter;
+import com.vachanasaahitya.vachanas.ui.bind.DetailsHolder;
+import com.vachanasaahitya.vachanas.ui.events.VachanakaaraItemEventListener;
 
 /**
  * Created by narensmac on 26/02/18.
  */
 
-public class VachanakaarasActivity extends ListActivity implements VachanakaarasAdapter.OnVachanakaaraInfoClickListener{
+public class VachanakaarasActivity extends ListActivity implements VachanakaaraItemEventListener {
 
     private static final String KEY_SORT_BY = "sort_by";
 
@@ -77,12 +75,10 @@ public class VachanakaarasActivity extends ListActivity implements Vachanakaaras
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.info){
-            VachanaFragment vf = new VachanaFragment();
-            Bundle bundle = new Bundle();
-            bundle.putString(VachanaFragment.EXTRA_VACHANA, getString(R.string.search_info_vachanakaararu));
-            bundle.putString(VachanaFragment.EXTRA_SHEERSHIKE, getString(R.string.info_title));
-            vf.setArguments(bundle);
-            vf.show(getFragmentManager(), "search_hint");
+            DetailsHolder details = new DetailsHolder(getString(R.string.search_info_vachanakaararu), getString(R.string.info_title), false, false);
+            Intent intent = new Intent(this, DetailsActivity.class);
+            intent.putExtra(DetailsActivity.EXTRA_DETAILS, details);
+            startActivity(intent);
             return true;
         }
         if(item.getItemId() == R.id.sort_by_name){
@@ -105,22 +101,16 @@ public class VachanakaarasActivity extends ListActivity implements Vachanakaaras
     }
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        Object o = v.getTag();
-        if(o instanceof Vachanakaara){
-            Vachanakaara vachanakaara = (Vachanakaara)o;
-            Intent intent = new Intent(this, VachanasActivity.class);
-            intent.putExtra(VachanasActivity.EXTRA_PARAM_VACHANAKAARA, vachanakaara);
-            startActivity(intent);
-        }
+    public void info(Vachanakaara vachanakaara) {
+        Intent intent = new Intent(this, VachanakaaraInfoActivity.class);
+        intent.putExtra(VachanakaaraInfoActivity.EXTRA_VACHANAKAARA, vachanakaara);
+        startActivity(intent);
     }
 
     @Override
-    public void onVachanakaaraInfoClick(Vachanakaara vachana) {
-        VachanakaaraFragment vf = new VachanakaaraFragment();
-        Bundle b = new Bundle();
-        b.putParcelable(VachanakaaraFragment.EXTRA_VACHANAKAARA, vachana);
-        vf.setArguments(b);
-        vf.show(getFragmentManager(), vachana.getName());
+    public void select(Vachanakaara vachanakaara) {
+        Intent intent = new Intent(this, VachanasActivity.class);
+        intent.putExtra(VachanasActivity.EXTRA_PARAM_VACHANAKAARA, vachanakaara);
+        startActivity(intent);
     }
 }

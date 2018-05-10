@@ -1,4 +1,4 @@
-package com.vachanasaahitya.vachanas.ui;
+package com.vachanasaahitya.vachanas.ui.activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.vachanasaahitya.vachanas.R;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
+import com.vachanasaahitya.vachanas.ui.ShowMeaningCallback;
 
 /**
  * Created by narensmac on 01/03/18.
@@ -38,6 +39,10 @@ public class LaunchActivity extends Activity{
 
     private void setData(String data){
         data = String.format(getString(R.string.entry_launch_info), data);
-        ((TextView)findViewById(R.id.launch_text)).setText(data);
+        TextView tv = findViewById(R.id.launch_text);
+        tv.setText(data);
+        ShowMeaningCallback meaningCallback = new ShowMeaningCallback(tv);
+        tv.setCustomSelectionActionModeCallback(meaningCallback);
+        tv.setTextIsSelectable(true);
     }
 }
