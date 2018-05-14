@@ -35,7 +35,7 @@ public class Vachana implements Parcelable{
         return 0;
     }
 
-    public static final Creator<Vachana> CREATOR = new Creator<Vachana>() {
+    public static final Parcelable.Creator<Vachana> CREATOR = new Parcelable.Creator<Vachana>() {
         @Override
         public Vachana createFromParcel(Parcel in) {
             return new Vachana(in);

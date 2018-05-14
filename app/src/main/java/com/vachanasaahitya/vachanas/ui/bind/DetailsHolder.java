@@ -1,7 +1,5 @@
 package com.vachanasaahitya.vachanas.ui.bind;
 
-import android.databinding.InverseBindingMethod;
-import android.databinding.InverseMethod;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -59,7 +57,7 @@ public class DetailsHolder implements Parcelable{
         dest.writeInt(isVachana? 1 : 0);
     }
 
-    public static Creator<DetailsHolder> CREATOR = new Creator<DetailsHolder>() {
+    public static final Parcelable.Creator<DetailsHolder> CREATOR = new Parcelable.Creator<DetailsHolder>() {
         @Override
         public DetailsHolder createFromParcel(Parcel source) {
             return new DetailsHolder(source);

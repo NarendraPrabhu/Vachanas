@@ -91,7 +91,7 @@ public final class Vachanakaara implements Parcelable{
         parcel.writeString(this.period);
     }
 
-    public final static Creator<Vachanakaara> CREATOR = new Creator<Vachanakaara>() {
+    public final static Parcelable.Creator<Vachanakaara> CREATOR = new Parcelable.Creator<Vachanakaara>() {
         @Override
         public Vachanakaara createFromParcel(Parcel parcel) {
             return new Vachanakaara(parcel);
