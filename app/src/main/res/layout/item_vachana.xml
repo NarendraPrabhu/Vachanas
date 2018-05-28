@@ -9,27 +9,45 @@
             type="com.vachanasaahitya.vachanas.ui.events.VachanaItemEventListener"/>
     </data>
     <RelativeLayout
-        android:minHeight="60dp"
+        android:minHeight="75dp"
         android:elevation="3dp"
-        android:background="@drawable/item_bg"
         android:padding="3dp"
+        android:background="@drawable/item_bg"
         android:onClick="@{(v)->events.select(vachana)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/vachana_vachana"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:lineSpacingExtra="3dp"
             android:layout_centerInParent="true"
+            android:shadowDx="3"
+            android:shadowDy="3"
+            android:shadowRadius="10"
+            android:shadowColor="@color/text_color_shadow"
             android:layout_alignParentTop="true"
-            android:gravity="center_vertical|left"
+            android:gravity="center_horizontal|top"
             android:lines="4"
+            android:ellipsize="end"
             android:maxLines="4"
             android:text="@{vachana.vachana}"
             android:minHeight="50dp"
             android:padding="10dp"
             android:layout_height="wrap_content"/>
+        <CheckedTextView
+            android:layout_width="15dp"
+            android:minHeight="15dp"
+            android:focusable="false"
+            android:layout_margin="5dp"
+            android:minWidth="15dp"
+            android:clickable="false"
+            android:checked="@{vachana.isFavorite}"
+            android:background="@drawable/selector_passive_favorite"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/vachana_favorite"
+            android:layout_height="15dp" />
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/vachana_name"
@@ -41,23 +59,9 @@
             android:text="@{vachana.name}"
             android:layout_below="@id/vachana_vachana"
             android:maxLines="1"
-            android:gravity="right|center_vertical"
+            android:gravity="center"
             android:minHeight="20dp"
             android:padding="10dp"
             android:layout_height="wrap_content"/>
-        <CheckedTextView
-            android:layout_width="15dp"
-            android:minHeight="15dp"
-            android:focusable="false"
-            android:layout_margin="5dp"
-            android:minWidth="15dp"
-            android:clickable="false"
-            android:checked="@{vachana.isFavorite}"
-            android:background="@drawable/selector_favorite"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:id="@+id/vachana_favorite"
-            android:layout_height="15dp" />
     </RelativeLayout>
 </layout>

@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"/>
             <ImageButton
                 android:layout_width="35dp"
-                android:src="@drawable/share"
+                android:src="@drawable/ic_share"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:adjustViewBounds="true"
@@ -52,7 +52,7 @@
                 android:layout_height="35dp"/>
             <ImageButton
                 android:layout_width="35dp"
-                android:src="@drawable/copy"
+                android:src="@drawable/ic_content_copy"
                 android:adjustViewBounds="true"
                 android:layout_below="@id/detail_search_word"
                 android:layout_toStartOf="@id/detail_tools_share"
@@ -81,6 +81,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:scrollbars="vertical"
+            android:scrollbarStyle="insideInset"
             android:padding="20dp"
             android:layout_height="wrap_content">
             <TextView
@@ -90,7 +91,7 @@
                 android:gravity="center"
                 android:text="@{details.info}"
                 android:padding="2dp"
-                android:textSize="18sp"
+                android:textSize="14sp"
                 android:lineSpacingExtra="3dp"
                 android:id="@+id/detail_vachana"
                 android:layout_height="match_parent">

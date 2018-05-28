@@ -28,12 +28,12 @@
             android:onClick="@{(v) -> events.info(vachanakaara)}"
             android:layout_centerVertical="true"
             android:background="@android:drawable/menuitem_background"
-            android:src="@drawable/info"
+            android:src="@drawable/ic_info_outline"
             android:layout_height="25dp"/>
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/vachanakaara_name"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:lineSpacingExtra="3dp"
             android:textStyle="bold"
             android:text="@{vachanakaara.name}"
@@ -50,7 +50,7 @@
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/vachanakaara_details"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:text="@{vachanakaara.details}"
             android:layout_toLeftOf="@id/vachanakaara_info"
             android:layout_toStartOf="@id/vachanakaara_info"
