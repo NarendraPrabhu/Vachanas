@@ -20,6 +20,7 @@
         <activity android:name=".ui.activities.LaunchActivity"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
+            android:icon="@mipmap/ic_launcher_round"
             android:label="@string/app_name" android:theme="@style/AppTheme.NotitleBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -33,11 +34,15 @@
             android:label="@string/activity_name_vachanas">
         </activity>
 
-        <activity android:name=".ui.activities.VachanakaaraInfoActivity"
+        <activity android:name=".ui.activities.VachanakaaraDetailsActivity"
             android:screenOrientation="portrait"
             android:resizeableActivity="false"/>
 
-        <activity android:name=".ui.activities.DetailsActivity"
+        <activity android:name=".ui.activities.InfoActivity"
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false"/>
+
+        <activity android:name=".ui.activities.VachanaDetailsActivity"
             android:screenOrientation="portrait"
             android:resizeableActivity="false"/>
 

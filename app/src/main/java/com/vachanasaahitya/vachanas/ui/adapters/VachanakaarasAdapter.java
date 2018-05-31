@@ -12,7 +12,7 @@ import android.widget.Filterable;
 import android.widget.SearchView;
 
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
-import com.vachanasaahitya.vachanas.databinding.ItemVachanakaaraBinding;
+import com.vachanasaahitya.vachanas.databinding.VachanakaaraListItemBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 import com.vachanasaahitya.vachanas.ui.events.VachanakaaraItemEventListener;
 
@@ -42,7 +42,7 @@ public class VachanakaarasAdapter extends CursorAdapter implements SearchView.On
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        ItemVachanakaaraBinding binding = ItemVachanakaaraBinding.inflate(mActivity.getLayoutInflater());
+        VachanakaaraListItemBinding binding = VachanakaaraListItemBinding.inflate(mActivity.getLayoutInflater());
         binding.setEvents(eventListener);
         return binding.getRoot();
     }
@@ -52,8 +52,9 @@ public class VachanakaarasAdapter extends CursorAdapter implements SearchView.On
         String name = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_NAME));
         String details = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_DETAILS));
         Vachanakaara v = new Vachanakaara(name, details);
-        ItemVachanakaaraBinding binding = DataBindingUtil.getBinding(view);
+        VachanakaaraListItemBinding binding = DataBindingUtil.getBinding(view);
         binding.setVachanakaara(v);
+        binding.setCursorPosition(cursor.getPosition());
     }
 
     @Override

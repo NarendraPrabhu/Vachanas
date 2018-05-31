@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout  xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
-            name="details"
-            type="com.vachanasaahitya.vachanas.ui.bind.DetailsHolder"/>
-        <import type="android.view.View"/>
+            name="vachana"
+            type="com.vachanasaahitya.vachanas.data.Vachana"/>
     </data>
     <ScrollView
         android:layout_width="match_parent"
@@ -15,14 +14,14 @@
         <TextView
             android:layout_width="match_parent"
             android:textStyle="bold"
+            android:textIsSelectable="true"
             android:gravity="center"
-            android:text="@{details.info}"
+            android:text="@{vachana.vachana}"
             android:padding="2dp"
             android:textSize="14sp"
             android:lineSpacingExtra="3dp"
             android:id="@+id/detail_vachana"
             android:layout_height="match_parent">
-            <requestFocus />
         </TextView>
     </ScrollView>
 </layout>

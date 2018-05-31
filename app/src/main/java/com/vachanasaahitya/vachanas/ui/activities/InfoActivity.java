@@ -3,35 +3,45 @@ package com.vachanasaahitya.vachanas.ui.activities;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
+import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import com.vachanasaahitya.vachanas.R;
-import com.vachanasaahitya.vachanas.data.Vachanakaara;
 import com.vachanasaahitya.vachanas.databinding.DetailsBinding;
+import com.vachanasaahitya.vachanas.ui.ShowMeaningCallback;
 import com.vachanasaahitya.vachanas.ui.bind.DetailsHolder;
-import com.vachanasaahitya.vachanas.ui.utils.StringUtils;
 
 /**
  * Created by narensmac on 26/02/18.
  */
 
-public class VachanakaaraInfoActivity extends Activity{
+public class InfoActivity extends Activity{
 
-    public static final String EXTRA_VACHANAKAARA = "vachanakaara";
+    public static final String EXTRA_DETAILS = "details";
+    private DetailsHolder details;
+    private DetailsBinding binding = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
-        Vachanakaara vachanakaara = getIntent().getParcelableExtra(EXTRA_VACHANAKAARA);
-        DetailsBinding binding = DetailsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        ((TextView)findViewById(R.id.detail_vachana)).setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
-        DetailsHolder details = new DetailsHolder(StringUtils.vachanakaaraConsolidatedDetails(this, vachanakaara), vachanakaara.getName(), false, false);
+        details = getIntent().getParcelableExtra(EXTRA_DETAILS);
+        binding = DetailsBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        TextView tv = view.findViewById(R.id.detail_vachana);
+        tv.setCustomSelectionActionModeCallback(new ShowMeaningCallback(tv));
+        setContentView(view);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         binding.setDetails(details);
-        setTitle(vachanakaara.getName());
+        if(!TextUtils.isEmpty(details.getTitle())) {
+            setTitle(details.getTitle());
+        }
     }
 
     @Override

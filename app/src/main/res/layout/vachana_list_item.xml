@@ -7,13 +7,16 @@
         <variable
             name="events"
             type="com.vachanasaahitya.vachanas.ui.events.VachanaItemEventListener"/>
+        <variable
+            name="cursorPosition"
+            type="int"/>
     </data>
     <RelativeLayout
         android:minHeight="75dp"
         android:elevation="3dp"
         android:padding="3dp"
         android:background="@drawable/item_bg"
-        android:onClick="@{(v)->events.select(vachana)}"
+        android:onClick="@{(v)->events.select(vachana, cursorPosition)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView

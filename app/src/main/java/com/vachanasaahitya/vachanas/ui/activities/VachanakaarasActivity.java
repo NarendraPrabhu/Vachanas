@@ -25,9 +25,10 @@ import com.vachanasaahitya.vachanas.ui.events.VachanakaaraItemEventListener;
 
 public class VachanakaarasActivity extends ListActivity implements VachanakaaraItemEventListener {
 
-    private static final String KEY_SORT_BY = "sort_by";
+    public static final String KEY_SORT_BY = "sort_by";
 
     private VachanakaarasAdapter mVachanakaarasAdapter = null;
+    private SearchView mSearchView = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,10 +55,10 @@ public class VachanakaarasActivity extends ListActivity implements VachanakaaraI
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.search).getActionView();
-        searchView.setOnQueryTextListener(mVachanakaarasAdapter);
-        searchView.setQueryHint(getString(R.string.search_hint_vachanakaara));
-        searchView.setIconified(false);
+        mSearchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        mSearchView.setOnQueryTextListener(mVachanakaarasAdapter);
+        mSearchView.setQueryHint(getString(R.string.search_hint_vachanakaara));
+        mSearchView.setIconified(false);
         return true;
     }
 
@@ -75,9 +76,9 @@ public class VachanakaarasActivity extends ListActivity implements VachanakaaraI
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.info){
-            DetailsHolder details = new DetailsHolder(getString(R.string.search_info_vachanakaararu), getString(R.string.info_title), false, false);
-            Intent intent = new Intent(this, DetailsActivity.class);
-            intent.putExtra(DetailsActivity.EXTRA_DETAILS, details);
+            DetailsHolder details = new DetailsHolder(getString(R.string.search_info_vachanakaararu), getString(R.string.info_title));
+            Intent intent = new Intent(this, InfoActivity.class);
+            intent.putExtra(InfoActivity.EXTRA_DETAILS, details);
             startActivity(intent);
             return true;
         }
@@ -101,9 +102,16 @@ public class VachanakaarasActivity extends ListActivity implements VachanakaaraI
     }
 
     @Override
-    public void info(Vachanakaara vachanakaara) {
-        Intent intent = new Intent(this, VachanakaaraInfoActivity.class);
-        intent.putExtra(VachanakaaraInfoActivity.EXTRA_VACHANAKAARA, vachanakaara);
+    public void info(Vachanakaara vachanakaara, int cursorPosition) {
+        Intent intent = new Intent(this, VachanakaaraDetailsActivity.class);
+        String query = "";
+        if(mSearchView != null){
+            query = mSearchView.getQuery().toString();
+        }
+        intent.putExtra(VachanakaaraDetailsActivity.EXTRA_VACHANAKAARA, vachanakaara);
+        intent.putExtra(VachanakaaraDetailsActivity.EXTRA_CURSOR_POSITION, cursorPosition);
+        intent.putExtra(VachanakaaraDetailsActivity.EXTRA_QUERY, query);
+        intent.putExtra(VachanakaaraDetailsActivity.EXTRA_SORT_BY, getSortBy().ordinal());
         startActivity(intent);
     }
 

@@ -1,5 +1,6 @@
 package com.vachanasaahitya.vachanas.data;
 
+import android.databinding.InverseMethod;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -59,7 +60,7 @@ public class Vachana implements Parcelable{
         return isFavorite;
     }
 
-    public void setFavorite(boolean favorite) {
+    public void setIsFavorite(boolean favorite) {
         isFavorite = favorite;
     }
 

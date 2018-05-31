@@ -82,7 +82,7 @@ public class VachanasActivity extends ListActivity implements VachanaItemEventLi
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.info){
             String name = (mVachanakaara == null) ? getString(R.string.favorite_info) :  mVachanakaara.getName();
-            DetailsHolder details = new DetailsHolder(String.format(getString(R.string.search_info_vachanagaLu), name), getString(R.string.info_title), false, false);
+            DetailsHolder details = new DetailsHolder(String.format(getString(R.string.search_info_vachanagaLu), name), getString(R.string.info_title));
             startDetails(details);
             return true;
         }
@@ -100,14 +100,23 @@ public class VachanasActivity extends ListActivity implements VachanaItemEventLi
 
 
     @Override
-    public void select(Vachana vachana) {
-        DetailsHolder details = new DetailsHolder(vachana.getVachana(), vachana.getName(), vachana.isFavorite(), true);
-        startDetails(details);
+    public void select(Vachana vachana, int cursorPosition) {
+        Intent intent = new Intent(this, VachanaDetailsActivity.class);
+        String query = "";
+        if(mSearchView !=  null){
+            query = mSearchView.getQuery().toString();
+        }
+        intent.putExtra(VachanaDetailsActivity.EXTRA_PARAM_QUERY, query);
+        intent.putExtra(VachanaDetailsActivity.EXTRA_PARAM_CURSOR_POSTION, cursorPosition);
+        intent.putExtra(VachanaDetailsActivity.EXTRA_PARAM_VACHANAKAARA, mVachanakaara);
+        intent.putExtra(VachanaDetailsActivity.EXTRA_PARAM_FAVORITE, favorite);
+        intent.putExtra(VachanaDetailsActivity.EXTRA_PARAM_VACHANA, vachana);
+        startActivity(intent);
     }
 
     private void startDetails(DetailsHolder details){
-        Intent intent = new Intent(this, DetailsActivity.class);
-        intent.putExtra(DetailsActivity.EXTRA_DETAILS, details);
+        Intent intent = new Intent(this, InfoActivity.class);
+        intent.putExtra(InfoActivity.EXTRA_DETAILS, details);
         startActivity(intent);
     }
 

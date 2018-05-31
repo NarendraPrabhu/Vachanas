@@ -14,7 +14,7 @@ import android.widget.SearchView;
 
 import com.vachanasaahitya.vachanas.data.Vachana;
 import com.vachanasaahitya.vachanas.data.Vachanakaara;
-import com.vachanasaahitya.vachanas.databinding.ItemVachanaBinding;
+import com.vachanasaahitya.vachanas.databinding.VachanaListItemBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 import com.vachanasaahitya.vachanas.ui.events.VachanaItemEventListener;
 
@@ -47,7 +47,7 @@ public class VachanasAdapter extends CursorAdapter implements SearchView.OnQuery
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        ItemVachanaBinding binding = ItemVachanaBinding.inflate(mActivity.getLayoutInflater());
+        VachanaListItemBinding binding = VachanaListItemBinding.inflate(mActivity.getLayoutInflater());
         binding.setEvents(eventListener);
         return binding.getRoot();
     }
@@ -58,8 +58,9 @@ public class VachanasAdapter extends CursorAdapter implements SearchView.OnQuery
         String vachana = cursor.getString(cursor.getColumnIndex(DatabaseHelper.COLUMN_VACHANA));
         boolean favorite = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLUMN_FAVORITE)) == 1;
         Vachana v = new Vachana(name, vachana, favorite);
-        ItemVachanaBinding binding = DataBindingUtil.getBinding(view);
+        VachanaListItemBinding binding = DataBindingUtil.getBinding(view);
         binding.setVachana(v);
+        binding.setCursorPosition(cursor.getPosition());
     }
 
     @Override
