@@ -26,6 +26,8 @@ import com.vachanasaahitya.vachanas.databinding.VachanaDetailsItemBinding;
 import com.vachanasaahitya.vachanas.databinding.VachanaDetailsLayoutBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 import com.vachanasaahitya.vachanas.ui.events.VachanaDetailsEventListener;
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.UnderlinePageIndicator;
 
 import java.util.List;
 
@@ -64,13 +66,15 @@ public class VachanaDetailsActivity extends Activity implements VachanaDetailsEv
 
         VachanaDetailsAdapter vda = new VachanaDetailsAdapter();
         mBinding.setAdapter(vda);
-        findViewById(R.id.vachana_details_pager).post(new Runnable() {
+        final ViewPager pager = findViewById(R.id.vachana_details_pager);
+        pager.post(new Runnable() {
             @Override
             public void run() {
-                ((ViewPager)findViewById(R.id.vachana_details_pager)).setCurrentItem(cursorPosition, true);
+                pager.setCurrentItem(cursorPosition, true);
+                ((UnderlinePageIndicator)findViewById(R.id.indicator)).setViewPager(pager, cursorPosition);
             }
         });
-        ((ViewPager)findViewById(R.id.vachana_details_pager)).addOnPageChangeListener(this);
+        pager.addOnPageChangeListener(this);
     }
 
     @Override

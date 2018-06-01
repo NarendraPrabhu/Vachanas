@@ -20,6 +20,7 @@ import com.vachanasaahitya.vachanas.databinding.VachanakaaraDetailLayoutBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 import com.vachanasaahitya.vachanas.ui.bind.DetailsHolder;
 import com.vachanasaahitya.vachanas.ui.utils.StringUtils;
+import com.viewpagerindicator.CirclePageIndicator;
 
 /**
  * Created by narensmac on 26/02/18.
@@ -57,14 +58,15 @@ public class VachanakaaraDetailsActivity extends Activity implements ViewPager.O
         mLayoutBinding.setAdapter(adapter);
         mLayoutBinding.setVachanakaara(vk);
         mLayoutBinding.setOpener(adapter);
-
-        findViewById(R.id.vachanakaara_details_pager).post(new Runnable() {
+        final ViewPager pager = findViewById(R.id.vachanakaara_details_pager);
+        pager.post(new Runnable() {
             @Override
             public void run() {
-                ((ViewPager)findViewById(R.id.vachanakaara_details_pager)).setCurrentItem(cursorPosition, true);
+                pager.setCurrentItem(cursorPosition, true);
+                ((CirclePageIndicator)findViewById(R.id.indicator)).setViewPager(pager, cursorPosition);
             }
         });
-        ((ViewPager)findViewById(R.id.vachanakaara_details_pager)).addOnPageChangeListener(this);
+        pager.addOnPageChangeListener(this);
     }
 
     @Override
