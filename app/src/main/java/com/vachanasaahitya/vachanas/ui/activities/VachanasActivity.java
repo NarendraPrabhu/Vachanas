@@ -1,11 +1,9 @@
 package com.vachanasaahitya.vachanas.ui.activities;
 
-import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +20,7 @@ import com.vachanasaahitya.vachanas.ui.events.VachanaItemEventListener;
  * Created by narensmac on 26/02/18.
  */
 
-public class VachanasActivity extends ListActivity implements VachanaItemEventListener {
+public class VachanasActivity extends BaseListActivity implements VachanaItemEventListener {
 
     public static final String EXTRA_PARAM_VACHANAKAARA = "vachanakaara";
     public static final String EXTRA_PARAM_FAVORITE = "favorite";
@@ -35,7 +33,6 @@ public class VachanasActivity extends ListActivity implements VachanaItemEventLi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
         setContentView(R.layout.list);
         mVachanakaara = getIntent().getParcelableExtra(EXTRA_PARAM_VACHANAKAARA);
         favorite = getIntent().getBooleanExtra(EXTRA_PARAM_FAVORITE, false);
@@ -118,19 +115,5 @@ public class VachanasActivity extends ListActivity implements VachanaItemEventLi
         Intent intent = new Intent(this, InfoActivity.class);
         intent.putExtra(InfoActivity.EXTRA_DETAILS, details);
         startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            onBackPressed();
-        }
-        return super.onKeyDown(keyCode, event);
     }
 }

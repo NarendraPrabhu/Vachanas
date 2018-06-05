@@ -8,12 +8,13 @@
     </data>
     <com.vachanasaahitya.vachanas.ui.ScrollableTextView
         android:layout_width="match_parent"
-        android:textStyle="bold"
+        android:textStyle="normal"
         android:gravity="center"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="40dp"
         android:text="@{details.info}"
         android:scrollbars="none"
         android:padding="2dp"
-        android:scrollIndicators="bottom"
         android:textSize="14sp"
         android:lineSpacingExtra="3dp"
         android:id="@+id/detail_vachana"

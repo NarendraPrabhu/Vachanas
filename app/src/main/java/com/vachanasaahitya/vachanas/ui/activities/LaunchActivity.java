@@ -1,6 +1,5 @@
 package com.vachanasaahitya.vachanas.ui.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +14,7 @@ import com.vachanasaahitya.vachanas.ui.ShowMeaningCallback;
  * Created by narensmac on 01/03/18.
  */
 
-public class LaunchActivity extends Activity{
+public class LaunchActivity extends BaseActivity{
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

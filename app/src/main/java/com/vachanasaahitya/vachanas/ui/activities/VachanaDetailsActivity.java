@@ -1,6 +1,5 @@
 package com.vachanasaahitya.vachanas.ui.activities;
 
-import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -31,7 +30,7 @@ import com.vachanasaahitya.vachanas.ui.events.VachanaDetailsEventListener;
 
 import java.util.List;
 
-public class VachanaDetailsActivity extends Activity implements VachanaDetailsEventListener, ViewPager.OnPageChangeListener{
+public class VachanaDetailsActivity extends BaseActivity implements VachanaDetailsEventListener, ViewPager.OnPageChangeListener{
 
     public static final String EXTRA_PARAM_VACHANA = VachanaDetailsActivity.class.getCanonicalName()+".VACHANA";
     public static final String EXTRA_PARAM_VACHANAKAARA = VachanaDetailsActivity.class.getCanonicalName()+".VACHANAKAARA";

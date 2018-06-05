@@ -66,7 +66,7 @@ public class PageIndicatorView extends TextView implements ViewPager.OnPageChang
     public void onPageSelected(int position) {
         String text = (position+1)+"";
         if(count > 0){
-            text += "-"+(count+1);
+            text += " - "+count;
         }
         setText(text);
     }

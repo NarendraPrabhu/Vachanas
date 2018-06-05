@@ -5,23 +5,18 @@
             name="vachana"
             type="com.vachanasaahitya.vachanas.data.Vachana"/>
     </data>
-    <ScrollView
+    <com.vachanasaahitya.vachanas.ui.ScrollableTextView
         android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="insideInset"
-        android:padding="20dp"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="match_parent"
-            android:textStyle="bold"
-            android:textIsSelectable="true"
-            android:gravity="center"
-            android:text="@{vachana.vachana}"
-            android:padding="2dp"
-            android:textSize="14sp"
-            android:lineSpacingExtra="3dp"
-            android:id="@+id/detail_vachana"
-            android:layout_height="match_parent">
-        </TextView>
-    </ScrollView>
+        android:textStyle="normal"
+        android:gravity="center"
+        android:text="@{vachana.vachana}"
+        android:requiresFadingEdge="vertical"
+        android:fadingEdgeLength="40dp"
+        android:scrollbars="none"
+        android:padding="2dp"
+        android:textSize="14sp"
+        android:lineSpacingExtra="3dp"
+        android:id="@+id/detail_vachana"
+        android:layout_height="match_parent">
+    </com.vachanasaahitya.vachanas.ui.ScrollableTextView>
 </layout>

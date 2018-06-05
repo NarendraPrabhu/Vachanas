@@ -1,6 +1,5 @@
 package com.vachanasaahitya.vachanas.ui.activities;
 
-import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -23,7 +22,7 @@ import com.vachanasaahitya.vachanas.ui.events.VachanakaaraItemEventListener;
  * Created by narensmac on 26/02/18.
  */
 
-public class VachanakaarasActivity extends ListActivity implements VachanakaaraItemEventListener {
+public class VachanakaarasActivity extends BaseListActivity implements VachanakaaraItemEventListener {
 
     public static final String KEY_SORT_BY = "sort_by";
 

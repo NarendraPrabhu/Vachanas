@@ -1,6 +1,5 @@
 package com.vachanasaahitya.vachanas.ui.activities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,7 +24,7 @@ import com.vachanasaahitya.vachanas.ui.utils.StringUtils;
  * Created by narensmac on 26/02/18.
  */
 
-public class VachanakaaraDetailsActivity extends Activity implements ViewPager.OnPageChangeListener{
+public class VachanakaaraDetailsActivity extends BaseActivity implements ViewPager.OnPageChangeListener{
 
     public interface VachanasOpener{
         void openVachanas(Vachanakaara vachanakaara);
@@ -43,7 +41,6 @@ public class VachanakaaraDetailsActivity extends Activity implements ViewPager.O
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.slide_left_in, R.anim.slide_left_out);
 
         String query = getIntent().getStringExtra(EXTRA_QUERY);
         final int cursorPosition = getIntent().getIntExtra(EXTRA_CURSOR_POSITION, 0);
@@ -84,20 +81,6 @@ public class VachanakaaraDetailsActivity extends Activity implements ViewPager.O
         SharedPreferences preferences = getPreferences(Context.MODE_PRIVATE);
         int i = preferences.getInt(VachanakaarasActivity.KEY_SORT_BY, 0);
         return  DatabaseHelper.SortVachanaKaaras.values()[i];
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_right_in, R.anim.slide_right_out);
-    }
-
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-            onBackPressed();
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
     private Vachanakaara getVachanakaara(int position){
