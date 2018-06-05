@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
             name="adapter"
@@ -20,24 +21,30 @@
             android:layout_width="match_parent"
             android:layout_weight="0.9"
             android:layout_height="0dp"
-            android:layout_margin="10dp">
-            <android.support.v4.view.ViewPager
-                android:layout_width="match_parent"
-                android:adapter="@{adapter}"
-                android:paddingBottom="20dp"
-                android:id="@+id/vachanakaara_details_pager"
-                android:layout_height="match_parent"/>
-            <com.viewpagerindicator.CirclePageIndicator
+            android:layout_margin="3dp">
+            <com.vachanasaahitya.vachanas.ui.PageIndicatorView
                 android:id="@+id/indicator"
-                android:padding="3dip"
+                android:padding="10dip"
+                android:gravity="center"
+                app:count="@{adapter.count}"
+                android:textStyle="normal"
+                android:textSize="12sp"
                 android:layout_centerHorizontal="true"
                 android:layout_alignParentBottom="true"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content" />
+            <android.support.v4.view.ViewPager
+                android:layout_width="match_parent"
+                android:adapter="@{adapter}"
+                android:paddingBottom="20dp"
+                android:layout_alignParentTop="true"
+                android:layout_above="@id/indicator"
+                android:id="@+id/vachanakaara_details_pager"
+                android:layout_height="match_parent"/>
         </RelativeLayout>
         <Button
             android:layout_width="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="3dp"
             android:id="@+id/vachanakaara_details_vachanas"
             android:text="@string/activity_name_vachanas"
             android:onClick="@{(v)->opener.openVachanas(vachanakaara)}"

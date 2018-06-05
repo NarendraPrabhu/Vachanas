@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
@@ -25,9 +26,8 @@ import com.vachanasaahitya.vachanas.data.Vachanakaara;
 import com.vachanasaahitya.vachanas.databinding.VachanaDetailsItemBinding;
 import com.vachanasaahitya.vachanas.databinding.VachanaDetailsLayoutBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
+import com.vachanasaahitya.vachanas.ui.PageIndicatorView;
 import com.vachanasaahitya.vachanas.ui.events.VachanaDetailsEventListener;
-import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.UnderlinePageIndicator;
 
 import java.util.List;
 
@@ -58,7 +58,7 @@ public class VachanaDetailsActivity extends Activity implements VachanaDetailsEv
         mBinding.setVachana(v);
         mBinding.setEvents(this);
 
-        if(vk == null){
+        if(vk == null || !TextUtils.isEmpty(query)){
             mCursor = DatabaseHelper.searchVachanas(getApplicationContext(), query, isFavorite);
         }else {
             mCursor = DatabaseHelper.searchVachanas(getApplicationContext(), vk.getName(), query, isFavorite);
@@ -71,9 +71,10 @@ public class VachanaDetailsActivity extends Activity implements VachanaDetailsEv
             @Override
             public void run() {
                 pager.setCurrentItem(cursorPosition, true);
-                ((UnderlinePageIndicator)findViewById(R.id.indicator)).setViewPager(pager, cursorPosition);
             }
         });
+        PageIndicatorView indicator = findViewById(R.id.indicator);
+        pager.addOnPageChangeListener(indicator);
         pager.addOnPageChangeListener(this);
     }
 
