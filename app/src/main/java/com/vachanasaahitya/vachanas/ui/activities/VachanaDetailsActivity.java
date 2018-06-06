@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.FilterQueryProvider;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vachanasaahitya.vachanas.R;
@@ -26,6 +27,7 @@ import com.vachanasaahitya.vachanas.databinding.VachanaDetailsItemBinding;
 import com.vachanasaahitya.vachanas.databinding.VachanaDetailsLayoutBinding;
 import com.vachanasaahitya.vachanas.db.DatabaseHelper;
 import com.vachanasaahitya.vachanas.ui.PageIndicatorView;
+import com.vachanasaahitya.vachanas.ui.ShowMeaningCallback;
 import com.vachanasaahitya.vachanas.ui.events.VachanaDetailsEventListener;
 
 import java.util.List;
@@ -164,8 +166,13 @@ public class VachanaDetailsActivity extends BaseActivity implements VachanaDetai
         public Object instantiateItem(ViewGroup container, int position) {
             VachanaDetailsItemBinding binding = VachanaDetailsItemBinding.inflate(getLayoutInflater());
             binding.setVachana(getVachana(position));
-            container.addView(binding.getRoot());
-            return binding.getRoot();
+            View v = binding.getRoot();
+            container.addView(v);
+            TextView tv = v.findViewById(R.id.detail_vachana);
+            tv.setTextIsSelectable(true);
+            ShowMeaningCallback meaningCallback = new ShowMeaningCallback(tv);
+            tv.setCustomSelectionActionModeCallback(meaningCallback);
+            return v;
         }
 
         @Override
